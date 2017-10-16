@@ -25,14 +25,14 @@
 			return xhttp.onreadystatechange();
  		}
    		function fillTypes() {
-   			var selects = document.getElementsByTagName("select");
-   			console.log(selects);
+   			//var tmp = document.getElementById("eenheid");
+   			//console.log(tmp);
    			var eenhedenTmp = getData("getEenheden");
-   			console.log(JSON.parse(eenhedenTmp));
-   			var eenheden = JSON.parse(eenhedenTmp);
-   			//eenhedenTmp2=eenhedenTmp.replace("[","").replace("]","");
-   			//eenhedenTmp3 = eenhedenTmp2.replace(/\"/g, "")
-   			//eenheden=eenhedenTmp3.split(",");
+   			//console.log("json:"+JSON.parse(eenhedenTmp));
+   			//var eenheden = JSON.parse(eenhedenTmp);
+   			eenhedenTmp2=eenhedenTmp.replace("[","").replace("]","");
+   			eenhedenTmp3 = eenhedenTmp2.replace(/\"/g, "")
+   			eenheden=eenhedenTmp3.split(",");
 			console.log("eenheden:"+eenheden);
    			var options="";
     		for (var i = 0; i < eenheden.length; i++) {
@@ -73,7 +73,7 @@
 			xhttp.setRequestHeader("Content-type", "application/json");
 			xhttp.send(data);
 		}
-		fillTypes();
+		window.onload=function(){fillTypes();};
     </script>
     
   </head>
