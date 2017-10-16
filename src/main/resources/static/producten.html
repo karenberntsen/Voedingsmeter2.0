@@ -9,32 +9,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     
     <script>
-		function getData(api){
+    var datajojo;
+    window.onload=function(){getData("getEenheden",datajojo,fillTypesFunction);}
+		function getData(api,data,functie){
         	var xhttp = new XMLHttpRequest();
 	        	xhttp.onreadystatechange = function() {
 				console.log("statechange");
 				if (this.readyState == 4 && this.status == 200) {
 					console.log("got response");
 					console.log(this.responseText);
- 					return(this.responseText);
+ 					data=this.responseText;
+ 					functie();
 				}
 			};
          	xhttp.open("GET", "http://localhost:8080/"+api);
 			xhttp.setRequestHeader("Content-type", "application/json");
 			xhttp.send();
-			return xhttp.onreadystatechange();
  		}
-   		function fillTypes() {
-   			//var tmp = document.getElementById("eenheid");
-   			//console.log(tmp);
-   			var eenhedenTmp = getData("getEenheden");
-   			//console.log("json:"+JSON.parse(eenhedenTmp));
-   			//var eenheden = JSON.parse(eenhedenTmp);
-   			eenhedenTmp2=eenhedenTmp.replace("[","").replace("]","");
-   			eenhedenTmp3 = eenhedenTmp2.replace(/\"/g, "")
-   			eenheden=eenhedenTmp3.split(",");
+		
+   		var fillTypesFunction = function fillTypes() {
+   			datajojo.replace("[","").replace("]","").replace(/\"/g, "").split(",");
 			console.log("eenheden:"+eenheden);
-   			var options="";
     		for (var i = 0; i < eenheden.length; i++) {
     			//options+= '<option>'+eenheden[i]+'</option>';
     		//}
@@ -46,8 +41,7 @@
     		//	document.getElementById('eenheid').options.add(opt);
     			var eh = document.createElement("OPTION");
     			eh.setAttribute("value", eenheden[i]);
-    			var t = document.createTextNode(eenheden[i]);
-    			eh.appendChild(t);
+    			eh.appendChild(document.createTextNode(eenheden[i]));
     			document.getElementById("eenheid").appendChild(eh);
    			}
    		}
@@ -73,7 +67,7 @@
 			xhttp.setRequestHeader("Content-type", "application/json");
 			xhttp.send(data);
 		}
-		window.onload=function(){fillTypes();};
+		
     </script>
     
   </head>
