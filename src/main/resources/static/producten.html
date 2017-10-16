@@ -15,21 +15,41 @@
 				console.log("statechange");
 				if (this.readyState == 4 && this.status == 200) {
 					console.log("got response");
+					console.log(this.responseText);
  					return(this.responseText);
 				}
 			};
          	xhttp.open("GET", "http://localhost:8080/"+api);
 			xhttp.setRequestHeader("Content-type", "application/json");
 			xhttp.send();
+			return xhttp.onreadystatechange();
  		}
    		function fillTypes() {
-   			var eenheden = getData("getEenheden");
+   			var selects = document.getElementsByTagName("select");
+   			console.log(selects);
+   			var eenhedenTmp = getData("getEenheden");
+   			console.log(JSON.parse(eenhedenTmp));
+   			var eenheden = JSON.parse(eenhedenTmp);
+   			//eenhedenTmp2=eenhedenTmp.replace("[","").replace("]","");
+   			//eenhedenTmp3 = eenhedenTmp2.replace(/\"/g, "")
+   			//eenheden=eenhedenTmp3.split(",");
+			console.log("eenheden:"+eenheden);
    			var options="";
     		for (var i = 0; i < eenheden.length; i++) {
-    			options+= '<option>'+eenheden[i]+'</option>';
-    		}
-			var eenheidsform = document.getElementById("eenheid");
-    		eenheidsform.innerHTML = options;
+    			//options+= '<option>'+eenheden[i]+'</option>';
+    		//}
+			//var eenheidsform = document.getElementById("eenheid");
+    		//eenheidsform.innerHTML = options;
+    			//var eh = document.createElement('OPTION');
+    		//	eh.text = eenheden[i];
+    		//	eh.value = eenheden[i];
+    		//	document.getElementById('eenheid').options.add(opt);
+    			var eh = document.createElement("OPTION");
+    			eh.setAttribute("value", eenheden[i]);
+    			var t = document.createTextNode(eenheden[i]);
+    			eh.appendChild(t);
+    			document.getElementById("eenheid").appendChild(eh);
+   			}
    		}
 		function productVersturen(){
 	    	var productNaam = document.getElementById("productnaam").value;
