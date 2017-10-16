@@ -9,42 +9,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     
     <script>
-    var datajojo;
-    window.onload=function(){getData("getEenheden",datajojo,fillTypesFunction);}
-		function getData(api,data,functie){
-        	var xhttp = new XMLHttpRequest();
-	        	xhttp.onreadystatechange = function() {
-				console.log("statechange");
-				if (this.readyState == 4 && this.status == 200) {
-					console.log("got response");
-					console.log(this.responseText);
- 					data=this.responseText;
- 					functie();
-				}
-			};
-         	xhttp.open("GET", "http://localhost:8080/"+api);
-			xhttp.setRequestHeader("Content-type", "application/json");
-			xhttp.send();
- 		}
-		
-   		var fillTypesFunction = function fillTypes() {
-   			datajojo.replace("[","").replace("]","").replace(/\"/g, "").split(",");
-			console.log("eenheden:"+eenheden);
-    		for (var i = 0; i < eenheden.length; i++) {
-    			//options+= '<option>'+eenheden[i]+'</option>';
-    		//}
-			//var eenheidsform = document.getElementById("eenheid");
-    		//eenheidsform.innerHTML = options;
-    			//var eh = document.createElement('OPTION');
-    		//	eh.text = eenheden[i];
-    		//	eh.value = eenheden[i];
-    		//	document.getElementById('eenheid').options.add(opt);
-    			var eh = document.createElement("OPTION");
-    			eh.setAttribute("value", eenheden[i]);
-    			eh.appendChild(document.createTextNode(eenheden[i]));
-    			document.getElementById("eenheid").appendChild(eh);
-   			}
-   		}
+       window.onload=function(){ beginFunctie();}
+    
+       function beginFunctie(){
+      		getData("getEenheden", maakDropdown,"eenheid");
+			getData("getProductgroep", maakDropdown,"productgroep");
+       }
+    
+       function getData(api, functieCallback,elementId){
+       		var xhttp = new XMLHttpRequest();
+    	    xhttp.onreadystatechange = function() {
+          		if (this.readyState == 4 && this.status == 200) {
+            		functieCallback(this.responseText,elementId);
+          		}
+        	};
+       		xhttp.open("GET", "http://localhost:8080/"+api);
+       		xhttp.setRequestHeader("Content-type", "application/json");
+        	xhttp.send();
+	   }
+    
+  	   function maakDropdown(dataFromDatabase,elementId){
+     		var opties = dataFromDatabase.replace("[","").replace("]","").replace(/\"/g, "").split(",");
+     		for (var i = 0; i < opties.length; i++) {
+				var optie = document.createElement("OPTION");
+				optie.setAttribute("value", opties[i]);
+				optie.appendChild(document.createTextNode(opties[i]));
+				document.getElementById(elementId).appendChild(optie);
+			}
+	    }
+   		
 		function productVersturen(){
 	    	var productNaam = document.getElementById("productnaam").value;
 	        var hoeveelheid = document.getElementById("hoeveelheid").value;
@@ -54,6 +47,7 @@
 			var product = '{"naam":"'+productNaam+'","hoeveelheid":"'+hoeveelheid+'","eenheid":"'+eenheid+'","productgroep":"'+productgroep+'","bron":"'+bron+'"}'; 
 			postData("ProductPost", product);
 		}
+		
 		function postData(api, data){
 			var xhttp = new XMLHttpRequest();
 	  		xhttp.onreadystatechange = function() {
@@ -72,71 +66,64 @@
     
   </head>
   <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="index.html">Voedingsmeter</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  	<a class="navbar-brand" href="index.html">Voedingsmeter</a>
+  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    	<span class="navbar-toggler-icon"></span>
+  	</button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="producten.html">Producten</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    	<ul class="navbar-nav mr-auto">
+      		<li class="nav-item active">
+        		<a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+      		</li>
+      		<li class="nav-item">
+        		<a class="nav-link" href="producten.html">Producten</a>
+      		</li>
+      		<li class="nav-item">
+        		<a class="nav-link disabled" href="#">Disabled</a>
+      		</li>
+    	</ul>
+  	</div>
+	</nav>
 
-<div class="container">
-  <h2>Voeg product toe</h2>
-  <div id="resultaat"></div>
-  <form class="form-horizontal" action="/action_page.php">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Product:</label>
-      <div class="col-sm-10">
-        <input id="productnaam" type="text" class="form-control" id="email" placeholder="Productnaam" name="email">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Hoeveelheid:</label>
-      <div class="col-sm-10">          
-        <input id="hoeveelheid" type="number" class="form-control" id="pwd" placeholder="100" name="pwd">
-        Eenheid:
-        <select class="selectpicker" id="eenheid">
-			<!-- <option>Gram</option>
-			<option>Mililiter</option>-->
-		</select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Productgroep:</label>
-      <div class="col-sm-10">          
-        <select class="selectpicker" id="productgroep">
-			<option>Groente</option>
-			<option>Fruit</option>
-			<option>Overig</option>
-		</select>
-      </div>
-    
-    
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Bron:</label>
-      <div class="col-sm-10">          
-        <input id="bron" type="text" class="form-control" id="pwd" placeholder="Etiket" name="pwd">
-      </div>
-    </div>
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default" onclick="voegToe()">Voeg toe</button>
-      </div>
-    </div>
+	<div class="container">
+  		<h2>Voeg product toe</h2>
+  	<div id="resultaat"></div>
+  	<form class="form-horizontal">
+    	<div class="form-group">
+      		<label class="control-label col-sm-2">Product:</label>
+      		<div class="col-sm-10">
+        		<input id="productnaam" type="text" class="form-control" id="productnaam" placeholder="Productnaam">
+      		</div>
+   		</div>
+    	<div class="form-group">
+      		<label class="control-label col-sm-2" for="pwd">Hoeveelheid:</label>
+      		<div class="col-sm-10">          
+        		<input id="hoeveelheid" type="number" class="form-control" id="pwd" placeholder="100">
+        		Eenheid:
+        		<select class="selectpicker" id="eenheid">
+				</select>
+      		</div>
+    	</div>
+    	<div class="form-group">
+      		<label class="control-label col-sm-2">Productgroep:</label>
+      		<div class="col-sm-10">          
+        		<select class="selectpicker" id="productgroep">
+				</select>
+      		</div>
+   		</div>
+    	<div class="form-group">
+      		<label class="control-label col-sm-2">Bron:</label>
+      		<div class="col-sm-10">          
+    	    	<input id="bron" type="text" class="form-control">
+      		</div>
+    	</div>
+    	<div class="form-group">        
+      		<div class="col-sm-offset-2 col-sm-10">
+        		<button type="submit" class="btn btn-default" onclick="productVersturen()">Voeg toe</button>
+      		</div>
+    	</div>
   </form>
 </div>
 
