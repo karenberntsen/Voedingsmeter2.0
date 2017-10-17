@@ -3,6 +3,7 @@ package nl.voeding.voedingsmeter.model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class Gebruiker {
 	private Long id;
 
 	@NotNull
-	private String naam;
+	private String gebruikersNaam;
 	
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
@@ -35,14 +36,31 @@ public class Gebruiker {
 	@OneToMany
 	private Set<Logboekdag> logboek = new HashSet<>();
 
+	@NotNull
+	private String email;
+
+	@NotNull
+	private String wachtwoord;
+	
 	//private Set<Lichaamssamenstelling> lichaamssamenstellingen = new HashSet<>();
 	
 	public Gebruiker() {}
 	
 	public Gebruiker(String naam, LocalDate geboortedatum, Float lengte) {
-		this.naam = naam;
+		this.gebruikersNaam = naam;
 		this.geboortedatum = geboortedatum;
 		this.lengte = lengte;
+	}
+
+	public Gebruiker(String naam, LocalDate geboortedatum, Float lengte, Set<Logboekdag> logboek, String email,
+			String password) {
+		super();
+		this.gebruikersNaam = naam;
+		this.geboortedatum = geboortedatum;
+		this.lengte = lengte;
+		this.logboek = logboek;
+		this.email = email;
+		this.wachtwoord = password;
 	}
 
 	public Long getId() {
@@ -54,11 +72,11 @@ public class Gebruiker {
 	}
 
 	public String getNaam() {
-		return naam;
+		return gebruikersNaam;
 	}
 
 	public void setNaam(String naam) {
-		this.naam = naam;
+		this.gebruikersNaam = naam;
 	}
 
 	public LocalDate getGeboortedatum() {
@@ -83,6 +101,50 @@ public class Gebruiker {
 	
 	public void removeLogboekdag(Logboekdag logboekdag) {
 		logboek.remove(logboekdag);
+	}
+	
+	public Set<Logboekdag> getLogboek() {
+		return logboek;
+	}
+	
+	public boolean containsLogboekdagFromDate(LocalDate date) {
+		//System.out.println("checking wether user "+naam+" contains logboekdag for date "+date.toString());
+		return logboek.isEmpty() ? false : logboek.stream().map(i->i.getDatum())
+					.anyMatch(datum -> datum.equals(date));
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Gebruiker) {
+		   Gebruiker andereGebruiker = (Gebruiker) obj;
+		   if (this.id.equals(andereGebruiker.getId())) {
+			   return true;
+		   } else if (this.email.equalsIgnoreCase(andereGebruiker.getEmail())) {
+			   return true;
+		   }
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return gebruikersNaam + " is geboren op " + geboortedatum.toString() +", is " +lengte +"m lang en is bereikbaar via: "+email;
+	}
+
+	public String getPassword() {
+		return wachtwoord;
+	}
+
+	public void setPassword(String password) {
+		this.wachtwoord = password;
 	}
 
 }

@@ -37,9 +37,12 @@ public class Logboekdag {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
 	@NotNull
-    @Column(name = "datum", nullable = false, unique = true)
 	private LocalDate datum;
 	
+    @NotNull
+    @ManyToOne
+    private Gebruiker gebruiker;
+    
 	@NotNull
     @JoinTable(name="producten",
                joinColumns=@JoinColumn(name="logboekdag"),
@@ -47,12 +50,15 @@ public class Logboekdag {
     @MapKeyJoinColumn(name="product")
 	private HashMap<Product,Float> producten = new HashMap<>();
 
-	public Logboekdag() {
-		datum=LocalDate.now();
+	public Logboekdag(Gebruiker gebruiker) {
+		this(gebruiker,LocalDate.now());
 	}
 	
-	public Logboekdag(LocalDate datum) {
+	public Logboekdag() {};
+	
+	public Logboekdag(Gebruiker gebruiker,LocalDate datum) {
 		this.datum = datum;
+		setGebruiker(gebruiker);
 	}
 
 	public void addProduct(Product product, Float hoeveelheid) {
@@ -78,6 +84,18 @@ public class Logboekdag {
 		this.id = id;
 	}
 
+	public Gebruiker getGebruiker() {
+		return gebruiker;
+	}
+
+	public void setGebruiker(Gebruiker gebruiker) {
+		if (!gebruiker.containsLogboekdagFromDate(datum)) {
+			this.gebruiker = gebruiker;
+		} else {
+			throw new IllegalArgumentException("Gebruiker heeft al een logboekdag met deze datum"+datum.toString());	
+		}
+	}
+	
 	public LocalDate getDatum() {
 		return datum;
 	}

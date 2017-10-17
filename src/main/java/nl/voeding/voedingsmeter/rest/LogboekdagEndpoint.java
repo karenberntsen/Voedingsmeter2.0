@@ -29,9 +29,16 @@ public class LogboekdagEndpoint {
 	@Autowired
 	LogboekdagService logboekdagService;
 	
+	@Autowired
+	GebruikerService gebruikerService;
+
+	
 	@GetMapping("/createLogboekdag")
 	public Logboekdag createLogboekdag() {
-		Logboekdag logboekdag = new Logboekdag();
+		Gebruiker gebruiker = new Gebruiker("japie",LocalDate.of(1970, 8, 3),1.85f);
+		System.out.println(gebruiker);
+		gebruikerService.save(gebruiker);
+		Logboekdag logboekdag = new Logboekdag(gebruiker);
 		logboekdagService.save(logboekdag);
 		return logboekdag;
 	}

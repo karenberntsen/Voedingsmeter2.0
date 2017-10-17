@@ -58,11 +58,12 @@ public class GebruikerEndpoint {
 	}
 	
 	@PostMapping("/GebruikerPost")
-	public String postEntiteit(@RequestBody Gebruiker gebruiker) {
-		System.out.println("Jojo");
-		System.out.println(gebruiker.getNaam());
-		gebruikerService.save(gebruiker);
-		return "happy";
+	public boolean postGebruiker(@RequestBody Gebruiker gebruiker){
+		if (!gebruikerService.containsEmail(gebruiker.getEmail())) {
+			gebruikerService.save(gebruiker);
+			return true;
+		}
+		return false;
 	}
 	
     @GetMapping("/getGebruikerById/{id}")

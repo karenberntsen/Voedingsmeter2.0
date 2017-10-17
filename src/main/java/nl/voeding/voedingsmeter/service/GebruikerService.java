@@ -21,12 +21,18 @@ public class GebruikerService {
 	GebruikerRepository gebruikerRepository;
 	
 	public Gebruiker save(Gebruiker gebruiker) {
+		System.out.println("save gebruiker");
 		gebruikerRepository.save(gebruiker);
 		return gebruiker;
 	}
 	
 	public List<Gebruiker> getAll() {
 		return (List<Gebruiker>)gebruikerRepository.findAll();
+	}
+	
+	public boolean containsEmail(String mail) {
+		return getAll().stream().map(i->i.getEmail())
+		.anyMatch(email -> email.equalsIgnoreCase(email));
 	}
 	
 	public void addLogboekdag(Logboekdag logboekdag,int id) {
