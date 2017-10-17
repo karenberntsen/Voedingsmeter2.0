@@ -14,6 +14,7 @@
        function beginFunctie(){
       		getData("getEenheden", maakDropdown,"eenheid");
 			getData("getProductgroep", maakDropdown,"productgroep");
+			getData("getProductFields",maakInputFields,"")
        }
     
        function getData(api, functieCallback,elementId){
@@ -29,7 +30,8 @@
 	   }
     
   	   function maakDropdown(dataFromDatabase,elementId){
-     		var opties = dataFromDatabase.replace("[","").replace("]","").replace(/\"/g, "").split(",");
+     		//var opties = dataFromDatabase.replace("[","").replace("]","").replace(/\"/g, "").split(",");
+     		var opties = JSON.parse(dataFromDatabase);
      		for (var i = 0; i < opties.length; i++) {
 				var optie = document.createElement("OPTION");
 				optie.setAttribute("value", opties[i]);
@@ -37,9 +39,67 @@
 				document.getElementById(elementId).appendChild(optie);
 			}
 	    }
+  	   
+  	   function maakInputFields(dataFromDatabase,elementId) {
+    		var fields = JSON.parse(dataFromDatabase);
+     		for (var i = 0; i < fields.length; i++) {
+     			 var field = fields[i];
+     			 if (document.getElementById(field)==null && field!="id") {
+     				var divje = document.createElement("div");
+     				divje.className="form-group";
+     				labeltje=document.createElement("label");
+     				labeltje.className="control-label col-sm-2";
+     				labeltje.innerHTML=field+":";
+     				divje2=document.createElement("div");
+     				divje2.className="col-sm-offset-2 col-sm-10";
+     				inputje=document.createElement("input");
+     				inputje.id=field;
+     				inputje.type="number";
+     				inputje.className="form-control";
+     				divje2.appendChild(inputje);
+     				labeltje.appendChild(divje2);
+     				divje.appendChild(labeltje);
+     				inputForm=document.getElementById("productInputForm");
+     				inputForm.insertBefore(divje,document.getElementById("submitDiv"));
+     			 }
+			}
+  	   }
    		
+  	 function createJSON() {
+ 		var inputs = document.getElementById("productInputForm").getElementsByTagName("input");
+		var selects = document.getElementById("productInputForm").getElementsByTagName("select");
+		//console.log(selects);
+		//var jsonObj=[];
+		var product  = {}
+		for (var i = 0; i < inputs.length; i++) {
+			product[inputs[i].id]=inputs[i].value;
+		}
+		for (var i = 0; i < selects.length; i++) {
+			product[selects[i].id]=selects[i].value;
+		}
+		console.log(JSON.stringify(product));
+		//jsonObj.push(product);
+		//alert(jsonObj);
+		//console.log(jsonObj);
+  	    /* jsonObj = [];
+  	    $("input[class=email]").each(function() {
+
+  	        var id = $(this).attr("title");
+  	        var email = $(this).val();
+
+  	        item = {}
+  	        item ["title"] = id;
+  	        item ["email"] = email;
+
+  	        jsonObj.push(item);
+  	    });
+
+  	    console.log(jsonObj);
+ */  	}
+  	   
+  	   
 		function productVersturen(){
-	    	var productNaam = document.getElementById("productnaam").value;
+	    	var productNaam = document.getElementById("naam").value;
 	        var hoeveelheid = document.getElementById("hoeveelheid").value;
 	        var eenheid = document.getElementById("eenheid").value;
 	        var bron = document.getElementById("bron").value;
@@ -90,17 +150,17 @@
 	<div class="container">
   		<h2>Voeg product toe</h2>
   	<div id="resultaat"></div>
-  	<form class="form-horizontal">
+  	<form class="form-horizontal" id="productInputForm">
     	<div class="form-group">
       		<label class="control-label col-sm-2">Product:</label>
       		<div class="col-sm-10">
-        		<input id="productnaam" type="text" class="form-control" id="productnaam" placeholder="Productnaam">
+        		<input id="naam" type="text" class="form-control" id="naam" placeholder="Productnaam"/>
       		</div>
    		</div>
     	<div class="form-group">
-      		<label class="control-label col-sm-2" for="pwd">Hoeveelheid:</label>
+      		<label class="control-label col-sm-2">Hoeveelheid:</label>
       		<div class="col-sm-10">          
-        		<input id="hoeveelheid" type="number" class="form-control" id="pwd" placeholder="100">
+        		<input id="hoeveelheid" type="number" class="form-control" placeholder="100"/>
         		Eenheid:
         		<select class="selectpicker" id="eenheid">
 				</select>
@@ -116,12 +176,13 @@
     	<div class="form-group">
       		<label class="control-label col-sm-2">Bron:</label>
       		<div class="col-sm-10">          
-    	    	<input id="bron" type="text" class="form-control">
+    	    	<input id="bron" type="text" class="form-control"/>
       		</div>
     	</div>
-    	<div class="form-group">        
+    	<div class="form-group" id="submitDiv">        
       		<div class="col-sm-offset-2 col-sm-10">
-        		<button type="submit" class="btn btn-default" onclick="productVersturen()">Voeg toe</button>
+        		<!-- <button type="submit" class="btn btn-default" onclick="productVersturen()">Voeg toe</button>-->
+        		<button type="submit" class="btn btn-default" onclick="createJSON()">Voeg toe</button>
       		</div>
     	</div>
   </form>
