@@ -2,9 +2,12 @@ package nl.voeding.voedingsmeter.model;
 
 import nl.voeding.voedingsmeter.model.Gebruiker;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,27 +42,10 @@ public class Logboekdag {
 	@ManyToOne
     private Gebruiker gebruiker;
     
-	private HashMap<Product,Float> producten = new HashMap<>();
-
+	private Set<ProductHoeveelheid> producten = new HashSet<>();
+	
 	public Logboekdag(Gebruiker gebruiker) {
 		this(gebruiker,LocalDate.now());
-	}
-	
-	//@NotNull
-    //@MapKeyJoinColumn(name="product")
-	//@JsonIgnore
-	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "Product")
-	
-	@NotNull
-	@JsonIgnore
-	@ManyToMany
-	@MapKey
-	public Map<Product, Float> getProducten() {
-		return producten;
-	}
-
-	public void setProducten(HashMap<Product, Float> producten) {
-		this.producten = producten;
 	}
 
 	public Logboekdag() {};
@@ -69,16 +55,30 @@ public class Logboekdag {
 		setGebruiker(gebruiker);
 	}
 
-	public void addProduct(Product product, Float hoeveelheid) {
-		producten.merge(product, hoeveelheid, Float::sum);
+	public void addProduct(Product product, Integer hoeveelheid) {
+		producten.merge(product, hoeveelheid, Integer::sum);
 	}
 	
 	public void removeProduct(Product product) {
 		producten.remove(product);
 	}
 	
-	public void removeProduct(Product product,Float hoeveelheid) {
-		producten.merge(product, -hoeveelheid, Float::sum);
+	@NotNull
+	@OneToMany
+	@JsonIgnore
+	public Set<ProductHoeveelheid> getProducten() {
+		return producten;
+	}
+
+	public void setProducten(Set<ProductHoeveelheid> producten) {
+		this.producten = producten;
+	}
+
+	public void removeProduct(Product product,Integer hoeveelheid) {
+		ProductHoeveelheid[] productHoeveelheid = producten.stream()
+				                                           .filter(ph->ph.getProduct().equals(product))
+				                                           .toArray(ProductHoeveelheid[]::new);
+		producten.merge(product, -hoeveelheid, Integer::sum);
 		if (producten.get(product)<=0) {
 			producten.remove(product);
 		}
