@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="./js/validDate.js"></script>
+    <script src="./js/objectVersturen.js"></script>
+    
+    
+      
   </head>
   <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,8 +40,7 @@
 
 	<div class="container">
   		<h2>Maak een account aan</h2>
-  	<div id="resultaat"></div>
-  	<form class="form-horizontal" id="productInputForm">
+  	<form class="form-horizontal" id="gebruikerInputFormulier">
     	<div class="form-group">
       		<label class="control-label col-sm-2">Naam:</label>
       		<div class="col-sm-10">
@@ -44,30 +48,33 @@
       		</div>
    		</div>
     	<div class="form-group">
-      		<label class="control-label col-sm-2">Hoeveelheid:</label>
+      		<label class="control-label col-sm-2">Geboortedatum:</label>
       		<div class="col-sm-10">          
-        		<input id="hoeveelheid" type="number" class="form-control" placeholder="100" required/>
-        		Eenheid:
-        		<select class="selectpicker" id="eenheid" required>
-				</select>
+      		   	<input id="geboortedatum" type="text" class="form-control" maxlength="10" placeholder="dd-mm-jjjj" required/>
+    		</div>
+   		</div>
+    	<div class="form-group">
+      		<label class="control-label col-sm-2">Lengte:</label>
+      		<div class="col-sm-10">          
+    	    	<input id="lengte" type="number" class="form-control" step=".01" required/>
       		</div>
     	</div>
     	<div class="form-group">
-      		<label class="control-label col-sm-2">Productgroep:</label>
+      		<label class="control-label col-sm-2">E-mail:</label>
       		<div class="col-sm-10">          
-        		<select class="selectpicker" id="productgroep" required>
-				</select>
+    	    	<input id="email" type="email" class="form-control" required/>
       		</div>
-   		</div>
+    	</div>
     	<div class="form-group">
-      		<label class="control-label col-sm-2">Bron:</label>
+      		<label class="control-label col-sm-2">Wachtwoord:</label>
       		<div class="col-sm-10">          
-    	    	<input id="bron" type="text" class="form-control"/ required>
+    	    	<input id="wachtwoord" type="password" class="form-control" required/>
       		</div>
     	</div>
     	<div class="form-group" id="submitDiv">        
       		<div class="col-sm-offset-2 col-sm-10">
-        		<button type="submit" class="btn btn-default" onclick="productVersturen()">Voeg toe</button>
+<!--      			<button type="submit" class="btn btn-default" onclick="registreren()">Registreer</button> -->      		
+         		<input type="button" class="btn btn-default" onclick="registreren()" value="Registreer"> 
       		</div>
     	</div>
   </form>

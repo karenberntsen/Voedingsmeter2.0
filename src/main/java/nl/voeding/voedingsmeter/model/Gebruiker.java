@@ -1,6 +1,7 @@
 package nl.voeding.voedingsmeter.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -13,56 +14,45 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 public class Gebruiker {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotNull
 	private String gebruikersNaam;
 	
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate geboortedatum;
 	
 	private Float lengte;
 	
-	@NotNull
-	@OneToMany
 	private Set<Logboekdag> logboek = new HashSet<>();
 
-	@NotNull
 	private String email;
 
-	@NotNull
 	private String wachtwoord;
 	
 	//private Set<Lichaamssamenstelling> lichaamssamenstellingen = new HashSet<>();
 	
 	public Gebruiker() {}
-	
-	public Gebruiker(String naam, LocalDate geboortedatum, Float lengte) {
-		this.gebruikersNaam = naam;
-		this.geboortedatum = geboortedatum;
-		this.lengte = lengte;
-	}
 
-	public Gebruiker(String naam, LocalDate geboortedatum, Float lengte, Set<Logboekdag> logboek, String email,
-			String password) {
+	public Gebruiker(String naam, LocalDate geboortedatum, Float lengte, String email,
+			String wachtwoord) {
 		super();
 		this.gebruikersNaam = naam;
 		this.geboortedatum = geboortedatum;
 		this.lengte = lengte;
-		this.logboek = logboek;
 		this.email = email;
-		this.wachtwoord = password;
+		this.wachtwoord = wachtwoord;
 	}
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -71,14 +61,21 @@ public class Gebruiker {
 		this.id = id;
 	}
 
-	public String getNaam() {
+	@NotNull
+	public String getGebruikersNaam() {
 		return gebruikersNaam;
 	}
 
-	public void setNaam(String naam) {
+	public void setGebruikersNaam(String naam) {
 		this.gebruikersNaam = naam;
 	}
 
+	//public String getGeboortedatum() {
+	//	return geboortedatum;
+	//}
+
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	public LocalDate getGeboortedatum() {
 		return geboortedatum;
 	}
@@ -87,6 +84,10 @@ public class Gebruiker {
 		this.geboortedatum = geboortedatum;
 	}
 
+	//public void setGeboortedatum(String geboortedatum) {
+	//	this.geboortedatum = geboortedatum;
+	//}
+	
 	public Float getLengte() {
 		return lengte;
 	}
@@ -103,16 +104,27 @@ public class Gebruiker {
 		logboek.remove(logboekdag);
 	}
 	
+	@NotNull
+	@OneToMany
+	@JsonIgnore
 	public Set<Logboekdag> getLogboek() {
 		return logboek;
 	}
 	
-	public boolean containsLogboekdagFromDate(LocalDate date) {
-		//System.out.println("checking wether user "+naam+" contains logboekdag for date "+date.toString());
-		return logboek.isEmpty() ? false : logboek.stream().map(i->i.getDatum())
-					.anyMatch(datum -> datum.equals(date));
+	
+	
+	public void setLogboek(Set<Logboekdag> logboek) {
+		this.logboek = logboek;
 	}
 
+	public boolean containsLogboekdagFromDate(LocalDate date) {
+		//System.out.println("checking wether user "+naam+" contains logboekdag for date "+date.toString());
+		return logboek.isEmpty() ? false : logboek.stream()
+				                                  .map(i->i.getDatum())
+				                                  .anyMatch(datum -> datum.equals(date));
+	}
+
+	@NotNull
 	public String getEmail() {
 		return email;
 	}
@@ -136,15 +148,16 @@ public class Gebruiker {
 
 	@Override
 	public String toString() {
-		return gebruikersNaam + " is geboren op " + geboortedatum.toString() +", is " +lengte +"m lang en is bereikbaar via: "+email;
+		return gebruikersNaam + " is geboren op " + geboortedatum.toString() + ", is " +lengte +"m lang en is bereikbaar via: "+email;
 	}
 
-	public String getPassword() {
+	@NotNull
+	public String getWachtwoord() {
 		return wachtwoord;
 	}
 
-	public void setPassword(String password) {
-		this.wachtwoord = password;
+	public void setWachtwoord(String wachtwoord) {
+		this.wachtwoord = wachtwoord;
 	}
 
 }

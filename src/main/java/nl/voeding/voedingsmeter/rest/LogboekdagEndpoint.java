@@ -35,7 +35,7 @@ public class LogboekdagEndpoint {
 	
 	@GetMapping("/createLogboekdag")
 	public Logboekdag createLogboekdag() {
-		Gebruiker gebruiker = new Gebruiker("japie",LocalDate.of(1970, 8, 3),1.85f);
+		Gebruiker gebruiker = new Gebruiker("japie",LocalDate.of(1970, 8, 3),1.85f,"japie@hotmail.nl","japie");
 		System.out.println(gebruiker);
 		gebruikerService.save(gebruiker);
 		Logboekdag logboekdag = new Logboekdag(gebruiker);

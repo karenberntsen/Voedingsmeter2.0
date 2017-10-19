@@ -30,17 +30,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Entity
 public class Logboekdag {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
-	@NotNull
 	private LocalDate datum;
 	
-    @NotNull
-    @ManyToOne
     private Gebruiker gebruiker;
     
 	@NotNull
@@ -54,6 +47,14 @@ public class Logboekdag {
 		this(gebruiker,LocalDate.now());
 	}
 	
+	public HashMap<Product, Float> getProducten() {
+		return producten;
+	}
+
+	public void setProducten(HashMap<Product, Float> producten) {
+		this.producten = producten;
+	}
+
 	public Logboekdag() {};
 	
 	public Logboekdag(Gebruiker gebruiker,LocalDate datum) {
@@ -75,7 +76,9 @@ public class Logboekdag {
 			producten.remove(product);
 		}
 	}
-	
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -83,7 +86,9 @@ public class Logboekdag {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+    @NotNull
+    @ManyToOne
 	public Gebruiker getGebruiker() {
 		return gebruiker;
 	}
@@ -96,6 +101,9 @@ public class Logboekdag {
 		}
 	}
 	
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+	@NotNull
 	public LocalDate getDatum() {
 		return datum;
 	}

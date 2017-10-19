@@ -40,8 +40,9 @@ public class GebruikerEndpoint {
 	
 	@GetMapping("/createGebruiker")
 	public Gebruiker createGebruiker() {
-		Gebruiker gebruiker = new Gebruiker("Karen",LocalDate.of(1989, 12, 25),1.7f);
-		gebruikerService.save(gebruiker);
+		Gebruiker gebruiker = new Gebruiker("Karen",LocalDate.of(1989, 12, 25),1.7f,"ff4nu@hotmail.com","wachtwoord");
+		//Gebruiker gebruiker = new Gebruiker("Karen","25-12-1989",1.7f,"ff4nu@hotmail.com","wachtwoord");
+		gebruikerService.save(gebruiker);		
 		return gebruiker;
 	}
 
@@ -59,6 +60,7 @@ public class GebruikerEndpoint {
 	
 	@PostMapping("/GebruikerPost")
 	public boolean postGebruiker(@RequestBody Gebruiker gebruiker){
+		System.out.println("gebruikerPost");
 		if (!gebruikerService.containsEmail(gebruiker.getEmail())) {
 			gebruikerService.save(gebruiker);
 			return true;
