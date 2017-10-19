@@ -4,6 +4,7 @@ import nl.voeding.voedingsmeter.model.Gebruiker;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -34,20 +36,25 @@ public class Logboekdag {
 
 	private LocalDate datum;
 	
+	@ManyToOne
     private Gebruiker gebruiker;
     
-	@NotNull
-    @JoinTable(name="producten",
-               joinColumns=@JoinColumn(name="logboekdag"),
-               inverseJoinColumns=@JoinColumn(name="hoeveelheid"))
-    @MapKeyJoinColumn(name="product")
 	private HashMap<Product,Float> producten = new HashMap<>();
 
 	public Logboekdag(Gebruiker gebruiker) {
 		this(gebruiker,LocalDate.now());
 	}
 	
-	public HashMap<Product, Float> getProducten() {
+	//@NotNull
+    //@MapKeyJoinColumn(name="product")
+	//@JsonIgnore
+	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "Product")
+	
+	@NotNull
+	@JsonIgnore
+	@ManyToMany
+	@MapKey
+	public Map<Product, Float> getProducten() {
 		return producten;
 	}
 

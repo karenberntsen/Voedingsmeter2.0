@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -70,23 +71,21 @@ public class Gebruiker {
 		this.gebruikersNaam = naam;
 	}
 
-	//public String getGeboortedatum() {
-	//	return geboortedatum;
-	//}
-
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	public LocalDate getGeboortedatum() {
 		return geboortedatum;
 	}
 
-	public void setGeboortedatum(LocalDate geboortedatum) {
+	private void setGeboortedatum(LocalDate geboortedatum) {
 		this.geboortedatum = geboortedatum;
 	}
 
-	//public void setGeboortedatum(String geboortedatum) {
-	//	this.geboortedatum = geboortedatum;
-	//}
+	@Transient
+	public void setGeboortedatumAsString(String s) {
+		setGeboortedatum(LocalDate.parse(s,DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+	}
+	
 	
 	public Float getLengte() {
 		return lengte;
@@ -105,7 +104,7 @@ public class Gebruiker {
 	}
 	
 	@NotNull
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="logboekdag")
 	@JsonIgnore
 	public Set<Logboekdag> getLogboek() {
 		return logboek;

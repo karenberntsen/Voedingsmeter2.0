@@ -19,7 +19,7 @@ public class Product {
 
 	private String naam;
 	
-	private Float hoeveelheid;
+	private Float inhoud;
 	
 	private Eenheid eenheid=Eenheid.GRAM;
 	
@@ -49,11 +49,11 @@ public class Product {
 
 	public Product() {};
 	
-	public Product(String naam, Float hoeveelheid, Eenheid eenheid, Productgroep productgroep, Float kcal, Float eiwit, Float vet,
+	public Product(String naam, Float inhoud, Eenheid eenheid, Productgroep productgroep, Float kcal, Float eiwit, Float vet,
 			Float verzadigdVet, Float onverzadigdVet, Float koolhydraten, Float suikers, Float fructose, Float vezels,
 			Float zout,String bron) {
 		this.naam = naam;
-		this.hoeveelheid = hoeveelheid;
+		this.inhoud = inhoud;
 		this.eenheid = eenheid;
 		this.productgroep = productgroep;
 		this.kcal = kcal;
@@ -77,8 +77,8 @@ public class Product {
 		this.naam = naam;
 	}
 
-	public void setHoeveelheid(Float hoeveelheid) {
-		this.hoeveelheid = hoeveelheid<=0 ? 0 : hoeveelheid;
+	public void setInhoud(Float inhoud) {
+		this.inhoud = inhoud<=0 ? 0 : inhoud;
 	}
 
 	public void setEenheid(Eenheid eenheid) {
@@ -141,8 +141,8 @@ public class Product {
 	}
 
 	@NotNull
-	public Float getHoeveelheid() {
-		return hoeveelheid;
+	public Float getInhoud() {
+		return inhoud;
 	}
 
 	@NotNull

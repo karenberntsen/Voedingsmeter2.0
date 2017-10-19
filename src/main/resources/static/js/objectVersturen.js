@@ -3,7 +3,7 @@
  */
 function registreren() {
 	console.log("registreren");
-	geboortedatumElement=document.getElementById("geboortedatum");
+	geboortedatumElement=document.getElementById("geboortedatumAsString");
 	console.log(geboortedatumElement);
 	var geboortedatum = geboortedatumElement.value;
 	if (validDate(geboortedatum)) {
