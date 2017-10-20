@@ -54,14 +54,15 @@ public class Logboekdag {
 		this.datum = datum;
 		setGebruiker(gebruiker);
 	}
-
-	public void addProduct(Product product, Integer hoeveelheid) {
-		producten.merge(product, hoeveelheid, Integer::sum);
-	}
 	
-	public void removeProduct(Product product) {
-		producten.remove(product);
-	}
+	public boolean removeProduct(Product product) {
+		for (ProductHoeveelheid producthoeveelheid:producten) {
+			if (producthoeveelheid.getProduct().equals(product)) {
+				return producten.remove(producthoeveelheid);
+			}
+		}
+		return false;
+	}//todo also remove producthoeveelheid from database; maybe not do this method in this class, but move it to the service
 	
 	@NotNull
 	@OneToMany
@@ -72,16 +73,6 @@ public class Logboekdag {
 
 	public void setProducten(Set<ProductHoeveelheid> producten) {
 		this.producten = producten;
-	}
-
-	public void removeProduct(Product product,Integer hoeveelheid) {
-		ProductHoeveelheid[] productHoeveelheid = producten.stream()
-				                                           .filter(ph->ph.getProduct().equals(product))
-				                                           .toArray(ProductHoeveelheid[]::new);
-		producten.merge(product, -hoeveelheid, Integer::sum);
-		if (producten.get(product)<=0) {
-			producten.remove(product);
-		}
 	}
 
 	@Id
