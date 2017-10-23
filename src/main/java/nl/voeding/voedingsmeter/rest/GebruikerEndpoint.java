@@ -16,23 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import nl.voeding.voedingsmeter.enums.Eenheid;
-import nl.voeding.voedingsmeter.enums.Productgroep;
 import nl.voeding.voedingsmeter.model.Gebruiker;
-import nl.voeding.voedingsmeter.model.LocalDateDeserializer;
-import nl.voeding.voedingsmeter.model.LocalDateSerializer;
 import nl.voeding.voedingsmeter.model.Logboekdag;
-import nl.voeding.voedingsmeter.model.Product;
 import nl.voeding.voedingsmeter.service.GebruikerService;
 import nl.voeding.voedingsmeter.service.LogboekdagService;
-import nl.voeding.voedingsmeter.service.ProductService;
 
 @RestController
 public class GebruikerEndpoint {
