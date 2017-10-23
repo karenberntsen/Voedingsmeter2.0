@@ -104,7 +104,7 @@ public class Gebruiker {
 	}
 	
 	@NotNull
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="logboekdag")
+	@OneToMany
 	@JsonIgnore
 	public Set<Logboekdag> getLogboek() {
 		return logboek;
