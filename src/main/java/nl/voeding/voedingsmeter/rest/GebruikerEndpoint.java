@@ -65,8 +65,8 @@ public class GebruikerEndpoint {
 		return false;
 	}
 	
-	@RequestMapping("/navBarToegang")
-	public boolean toegangNavBarGebruiker(HttpServletRequest request,HttpServletResponse response) {
+	@RequestMapping("/navBarLogboekToegang")
+	public boolean navBarLogboekToegangGebruiker(HttpServletRequest request,HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             return Arrays.stream(cookies)
@@ -78,7 +78,7 @@ public class GebruikerEndpoint {
 	private Cookie cookieGenerator() {
 	    SecureRandom random = new SecureRandom();
 	    int number =random.nextInt();
-	    Cookie newCookie = new Cookie("cookie:",number+"");
+	    Cookie newCookie = new Cookie("cookie",number+"");
   		newCookie.setMaxAge(24 * 60 * 60);
   		return newCookie;	      
 	}

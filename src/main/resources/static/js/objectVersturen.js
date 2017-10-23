@@ -52,7 +52,7 @@ function redirectIfTrue(response,url) {
 	}
   	
  	
-  	function postData(api, data,functieCallback){
+  	function postData(api, data,functieCallback,inputCallbackFunction){
 		var xhttp = new XMLHttpRequest();
 		console.log("postData");
   		xhttp.onreadystatechange = function() {
