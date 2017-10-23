@@ -8,10 +8,14 @@ function setLogboekNavBarAccess() {
 }
 
 function enableToegangNavBar(response,elementId) {
-	if (response==true) {
+	if (response=="true") {
+		console.log("got true back from database");
 		document.getElementById(elementId).className="nav-link";
+		document.getElementById(elementId).href="logboek.html";
 	} else {
+		console.log("got false back from database");
 		document.getElementById(elementId).className="nav-link disabled";
+		document.getElementById(elementId).href="#";
 	}
 }
 

@@ -68,7 +68,7 @@ public class Gebruiker {
 	public String getGebruikersNaam() {
 		return gebruikersNaam;
 	}
-
+	
 	public Cookie getCookie() {
 		return cookie;
 	}

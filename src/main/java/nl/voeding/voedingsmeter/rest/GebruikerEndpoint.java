@@ -45,9 +45,13 @@ public class GebruikerEndpoint {
 	@RequestMapping("/gebruikerLogin")
 	public boolean gebruikerLogin(@RequestBody Gebruiker gebruiker,HttpServletRequest request,
             HttpServletResponse response) {
+		System.out.println("gebruikerLogin");
 		Gebruiker gebruikerUitDatabase = gebruikerService.getGebruiker(gebruiker);
 		if (gebruikerUitDatabase != null) {
-			gebruiker.setCookie(cookieGenerator());
+			Cookie cookie = cookieGenerator();
+			gebruikerUitDatabase.setCookie(cookie);
+			response.addCookie(cookie);
+			gebruikerService.save(gebruikerUitDatabase);
 			return true;
 		}
 		System.out.println("gebruiker is null");
@@ -56,6 +60,7 @@ public class GebruikerEndpoint {
 	
 	@RequestMapping("/navBarLogboekToegang")
 	public boolean navBarLogboekToegangGebruiker(HttpServletRequest request,HttpServletResponse response) {
+		System.out.println("navBarLogboekToegang");
 		Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             return Arrays.stream(cookies)

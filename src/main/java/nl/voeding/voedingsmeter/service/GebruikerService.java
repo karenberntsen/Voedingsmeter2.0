@@ -52,6 +52,7 @@ public class GebruikerService {
 	}
 	
 	public boolean hasCookie(String cookieString) {
+		List<String> cookieStrings = getCookieStrings();
 		return getCookieStrings().contains(cookieString);
 	}
 	
