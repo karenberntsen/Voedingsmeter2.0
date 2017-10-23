@@ -99,8 +99,6 @@ public class Logboekdag {
 		}
 	}
 	
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
 	@NotNull
 	public LocalDate getDatum() {
 		return datum;

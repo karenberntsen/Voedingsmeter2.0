@@ -81,22 +81,14 @@ public class Gebruiker {
 		this.gebruikersNaam = naam;
 	}
 
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
 	public LocalDate getGeboortedatum() {
 		return geboortedatum;
 	}
 
-	private void setGeboortedatum(LocalDate geboortedatum) {
+	public void setGeboortedatum(LocalDate geboortedatum) {
 		this.geboortedatum = geboortedatum;
 	}
 
-	@Transient
-	public void setGeboortedatumAsString(String s) {
-		setGeboortedatum(LocalDate.parse(s,DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-	}
-	
-	
 	public Float getLengte() {
 		return lengte;
 	}
