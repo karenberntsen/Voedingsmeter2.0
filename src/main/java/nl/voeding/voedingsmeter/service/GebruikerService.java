@@ -1,5 +1,9 @@
 package nl.voeding.voedingsmeter.service;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,28 @@ public class GebruikerService {
 		System.out.println("save gebruiker");
 		gebruikerRepository.save(gebruiker);
 		return gebruiker;
+	}
+	
+	public Gebruiker getGebruiker(Gebruiker gebruiker) {
+		Gebruiker gebruikerUitDatabase;
+		Iterator itr = getAll().iterator();
+		while (itr.hasNext()) {
+			gebruikerUitDatabase = (Gebruiker) itr.next();
+			if (gebruikerUitDatabase.equals(gebruiker)) {
+				if (gebruikerUitDatabase.getWachtwoord().equals(gebruiker.getWachtwoord())) {
+					return gebruikerUitDatabase;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public List<String> getCookieStrings() {
+		return (List<String>) getAll().stream().map(gebruiker -> gebruiker.getCookie().getValue());
+	}
+	
+	public boolean hasCookie(String cookieString) {
+		return getCookieStrings().contains(cookieString);
 	}
 	
 	public List<Gebruiker> getAll() {

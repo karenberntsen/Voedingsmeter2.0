@@ -15,18 +15,30 @@ function registreren() {
 
 }
 
+function gebruikerLogin() {
+	objectVersturen("login","gebruikerLogin",redirectIfTrue,"index.html");
+}
+
+function redirectIfTrue(response,url) {
+	console.log(response);
+	if (response=="true") {
+		window.location.replace(url);
+	}
+}
+
 	function gebruikerVersturen() {
-		objectVersturen("gebruikerInputFormulier","GebruikerPost",function(a){});
+		objectVersturen("gebruikerInputFormulier","GebruikerPost",redirectIfTrue,"login.html");
 	}
 
 	function productVersturen() {
-  		objectVersturen("productInputForm","ProductPost",function(a){});
+  		objectVersturen("productInputForm","ProductPost",function(a){},"");
    	}	
   	   
-  	function objectVersturen(inputFormId,api,functieCallback) {
+  	function objectVersturen(inputFormId,api,functieCallback,inputCallbackFunction) {
  		var inputs = document.getElementById(inputFormId).getElementsByTagName("input");
 		var selects = document.getElementById(inputFormId).getElementsByTagName("select");
 		var product  = {}
+		console.log("object versturen");
 		for (var i = 0; i < inputs.length; i++) {
 			if (inputs[i].type!="button") {
 				product[inputs[i].id]=inputs[i].value;
@@ -36,18 +48,23 @@ function registreren() {
 			product[selects[i].id]=selects[i].value;
 		}
 		console.log(product);
-		postData(api, JSON.stringify(product),functieCallback);
+		postData(api, JSON.stringify(product),functieCallback,inputCallbackFunction);
 	}
   	
  	
   	function postData(api, data,functieCallback){
 		var xhttp = new XMLHttpRequest();
+		console.log("postData");
   		xhttp.onreadystatechange = function() {
     			if (this.readyState == 4 && this.status == 200) {
   					console.log('status OK');
     				if (this.responseText!=null) {
       					console.log(this.responseText);
-      					functieCallback(this.responseText);
+      					if (inputCallbackFunction!="") {
+      						functieCallback(this.responseText,inputCallbackFunction);
+      					} else {
+      						functieCallback(this.responseText);
+      					}
       				}
     			}
   		};

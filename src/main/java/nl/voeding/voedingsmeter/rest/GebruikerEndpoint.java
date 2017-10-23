@@ -1,7 +1,13 @@
 package nl.voeding.voedingsmeter.rest;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +51,37 @@ public class GebruikerEndpoint {
 		gebruikerService.save(gebruiker);		
 		return gebruiker;
 	}
+	
+	
+	@RequestMapping("/gebruikerLogin")
+	public boolean gebruikerLogin(@RequestBody Gebruiker gebruiker,HttpServletRequest request,
+            HttpServletResponse response) {
+		Gebruiker gebruikerUitDatabase = gebruikerService.getGebruiker(gebruiker);
+		if (gebruikerUitDatabase != null) {
+			gebruiker.setCookie(cookieGenerator());
+			return true;
+		}
+		System.out.println("gebruiker is null");
+		return false;
+	}
+	
+	@RequestMapping("/navBarToegang")
+	public boolean toegangNavBarGebruiker(HttpServletRequest request,HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            return Arrays.stream(cookies)
+            		     .anyMatch(cookie ->gebruikerService.hasCookie(cookie.getValue()));
+        }
+        return false;
+	}
+	
+	private Cookie cookieGenerator() {
+	    SecureRandom random = new SecureRandom();
+	    int number =random.nextInt();
+	    Cookie newCookie = new Cookie("cookie:",number+"");
+  		newCookie.setMaxAge(24 * 60 * 60);
+  		return newCookie;	      
+	}
 
 	@PostMapping("/addLogboekdagToGebruiker/{id}")
 	public void addLogboekdagToGebruiker(@RequestBody Logboekdag logboekdag,@PathVariable int id) {
@@ -57,6 +94,8 @@ public class GebruikerEndpoint {
 		System.out.println("getGebruikers");
 		return gebruikerService.getAll();
 	}
+	
+	
 	
 	@PostMapping("/GebruikerPost")
 	public boolean postGebruiker(@RequestBody Gebruiker gebruiker){

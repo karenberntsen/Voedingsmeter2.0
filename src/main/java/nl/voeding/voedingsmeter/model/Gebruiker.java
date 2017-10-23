@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.servlet.http.Cookie;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,6 +39,8 @@ public class Gebruiker {
 
 	private String wachtwoord;
 	
+	private Cookie cookie;
+	
 	//private Set<Lichaamssamenstelling> lichaamssamenstellingen = new HashSet<>();
 	
 	public Gebruiker() {}
@@ -62,11 +65,18 @@ public class Gebruiker {
 		this.id = id;
 	}
 
-	@NotNull
 	public String getGebruikersNaam() {
 		return gebruikersNaam;
 	}
 
+	public Cookie getCookie() {
+		return cookie;
+	}
+	
+	public void setCookie(Cookie cookie) {
+		this.cookie=cookie;
+	}
+	
 	public void setGebruikersNaam(String naam) {
 		this.gebruikersNaam = naam;
 	}
