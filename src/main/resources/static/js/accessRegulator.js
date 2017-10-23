@@ -13,7 +13,7 @@ function enableToegangNavBar(response,elementId) {
 	} else {
 		document.getElementById(elementId).className="nav-link disabled";
 	}
-s}
+}
 
 
 function getData(api, functieCallback,elementId){
@@ -21,7 +21,7 @@ function getData(api, functieCallback,elementId){
     xhttp.onreadystatechange = function() {
   		if (this.readyState == 4 && this.status == 200) {
 				if (this.responseText!=null) {
-        		functieCallback(this.responseText,elementId);
+					functieCallback(this.responseText,elementId);
 				}
   		}
 	};

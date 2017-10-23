@@ -2,6 +2,8 @@ package nl.voeding.voedingsmeter.service;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.Cookie;
 
@@ -45,7 +47,8 @@ public class GebruikerService {
 	}
 	
 	public List<String> getCookieStrings() {
-		return (List<String>) getAll().stream().map(gebruiker -> gebruiker.getCookie().getValue());
+		 return getAll().stream().map(gebruiker -> gebruiker.getCookie())
+				 .filter(cookie->cookie!=null).map(cookie->cookie.getValue()).collect(Collectors.toList());
 	}
 	
 	public boolean hasCookie(String cookieString) {
