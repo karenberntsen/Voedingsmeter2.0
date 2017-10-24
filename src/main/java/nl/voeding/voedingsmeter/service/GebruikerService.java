@@ -56,7 +56,7 @@ public class GebruikerService {
 			if (cookies.length>1) {
 				System.out.println("more than one cookie found");
 			}
-			return gebruikerRepository.findByCookie(cookies[0]).get(0);
+			return gebruikerRepository.findByCookie(cookies[0].getValue()).get(0);
     	} else {
     		throw new NullPointerException("No cookies found");
     	}
@@ -73,7 +73,7 @@ public class GebruikerService {
 		return (List<Gebruiker>)gebruikerRepository.findAll();
 	}
 	
-	public List<Gebruiker> getGebruikerByCookie(Cookie cookie) {
+	public List<Gebruiker> getGebruikerByCookie(String cookie) {
 		return gebruikerRepository.findByCookie(cookie);
 	}
 	

@@ -2,6 +2,9 @@ package nl.voeding.voedingsmeter.rest;
 
 import java.time.LocalDate;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,15 @@ public class LogboekdagEndpoint {
 	public List<Logboekdag> getLogboek() {
 		System.out.println("getLogboek");
 		return logboekdagService.getAll();
+	}
+	
+	@GetMapping("/getLogboekFromGebruiker")
+	public LocalDate[] getLogboekFromGebruiker(HttpServletRequest request) {
+		System.out.println("getLogboek");
+		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
+		//logboekdagService.getLogboekByUser(gebruiker);
+		System.out.println(gebruiker.getLogboek().stream().map(lb->lb.getDatum()).toArray(LocalDate[]::new));
+		return gebruiker.getLogboek().stream().map(lb->lb.getDatum()).toArray(LocalDate[]::new);
 	}
 	
 	@PostMapping("/LogboekdagPost")

@@ -13,6 +13,6 @@ import nl.voeding.voedingsmeter.model.Product;
 @Component
 public interface GebruikerRepository extends CrudRepository<Gebruiker, Long> {
 	
-	public List<Gebruiker> findByCookie(Cookie cookie);
+	public List<Gebruiker> findByCookie(String cookie);
 
 }

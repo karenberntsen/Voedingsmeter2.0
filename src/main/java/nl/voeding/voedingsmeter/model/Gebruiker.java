@@ -137,7 +137,12 @@ public class Gebruiker {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Gebruiker) {
+		   System.out.println("object is gebruiker");
 		   Gebruiker andereGebruiker = (Gebruiker) obj;
+		   System.out.println(this.id);
+		   System.out.println(andereGebruiker.getId());
+		   System.out.println(this.email);
+		   System.out.println(andereGebruiker.getEmail());
 		   if (this.id.equals(andereGebruiker.getId())) {
 			   return true;
 		   } else if (this.email.equalsIgnoreCase(andereGebruiker.getEmail())) {
