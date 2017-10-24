@@ -2,6 +2,8 @@ package nl.voeding.voedingsmeter.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,62 +14,46 @@ import nl.voeding.voedingsmeter.enums.Productgroep;
 
 @Entity
 public class Product {
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
 	private Long id;
 
-	@NotNull
 	private String naam;
 	
-	@NotNull
-	private Float hoeveelheid;
+	private Float inhoud;
 	
-	@NotNull
 	private Eenheid eenheid=Eenheid.GRAM;
 	
-	@NotNull
 	private Productgroep productgroep=Productgroep.OVERIG;
 	
-	@Column(name="kcal",nullable=true)	
 	private Float kcal=null;
 	
-	@Column(name="eiwit",nullable=true)
 	private Float eiwit=null;
 	
-	@Column(name="vet",nullable=true)
 	private Float vet=null;
 	
-	@Column(name="verzadigdVet",nullable=true)
 	private Float verzadigdVet=null;
 	
-	@Column(name="onverzadigdVet",nullable=true)
 	private Float onverzadigdVet=null;
 	
-	@Column(name="koolhydraten",nullable=true)
 	private Float koolhydraten=null;
 
-	@Column(name="suikers",nullable=true)
 	private Float suikers=null;
 	
-	@Column(name="fructose",nullable=true)
 	private Float fructose=null;
 
-	@Column(name="vezels",nullable=true)
 	private Float vezels=null;
 	
-	@Column(name="zout",nullable=true)
 	private Float zout=null;
-
-	@NotNull
+	
 	private String bron;
 
 	public Product() {};
 	
-	public Product(String naam, Float hoeveelheid, Eenheid eenheid, Productgroep productgroep, Float kcal, Float eiwit, Float vet,
+	public Product(String naam, Float inhoud, Eenheid eenheid, Productgroep productgroep, Float kcal, Float eiwit, Float vet,
 			Float verzadigdVet, Float onverzadigdVet, Float koolhydraten, Float suikers, Float fructose, Float vezels,
 			Float zout,String bron) {
 		this.naam = naam;
-		this.hoeveelheid = hoeveelheid;
+		this.inhoud = inhoud;
 		this.eenheid = eenheid;
 		this.productgroep = productgroep;
 		this.kcal = kcal;
@@ -91,8 +77,8 @@ public class Product {
 		this.naam = naam;
 	}
 
-	public void setHoeveelheid(Float hoeveelheid) {
-		this.hoeveelheid = hoeveelheid<=0 ? 0 : hoeveelheid;
+	public void setInhoud(Float inhoud) {
+		this.inhoud = inhoud<=0 ? 0 : inhoud;
 	}
 
 	public void setEenheid(Eenheid eenheid) {
@@ -142,65 +128,92 @@ public class Product {
 	public void setBron(String bron) {
 		this.bron = bron;
 	}
-
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
 
+	@NotNull
 	public String getNaam() {
 		return naam;
 	}
 
-	public Float getHoeveelheid() {
-		return hoeveelheid;
+	@NotNull
+	public Float getInhoud() {
+		return inhoud;
 	}
 
+	@NotNull
+	@Enumerated(EnumType.STRING)
 	public Eenheid getEenheid() {
 		return eenheid;
 	}
 
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	public Productgroep getProductgroep() {
+		return productgroep;
+	}
+
+	@Column(name="kcal",nullable=true)
 	public Float getKcal() {
 		return kcal;
 	}
 
+	@Column(name="eiwit",nullable=true)
 	public Float getEiwit() {
 		return eiwit;
 	}
 
+	@Column(name="vet",nullable=true)
 	public Float getVet() {
 		return vet;
 	}
 
+	@Column(name="verzadigdVet",nullable=true)
 	public Float getVerzadigdVet() {
 		return verzadigdVet;
 	}
 
+	@Column(name="onverzadigdVet",nullable=true)
 	public Float getOnverzadigdVet() {
 		return onverzadigdVet;
 	}
 
+	@Column(name="koolhydraten",nullable=true)
 	public Float getKoolhydraten() {
 		return koolhydraten;
 	}
 
+	@Column(name="suikers",nullable=true)
 	public Float getSuikers() {
 		return suikers;
 	}
 
+	@Column(name="fructose",nullable=true)
 	public Float getFructose() {
 		return fructose;
 	}
 
+	@Column(name="vezels",nullable=true)
 	public Float getVezels() {
 		return vezels;
 	}
 
+	@Column(name="zout",nullable=true)
 	public Float getZout() {
 		return zout;
 	}
 
+	@NotNull
 	public String getBron() {
 		return bron;
+	}
+
+	public void setProductgroep(Productgroep productgroep) {
+		this.productgroep = productgroep;
 	}
 	
 	

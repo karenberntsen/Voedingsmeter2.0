@@ -1,5 +1,11 @@
 package nl.voeding.voedingsmeter.service;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +27,59 @@ public class GebruikerService {
 	GebruikerRepository gebruikerRepository;
 	
 	public Gebruiker save(Gebruiker gebruiker) {
+		System.out.println("save gebruiker");
 		gebruikerRepository.save(gebruiker);
 		return gebruiker;
 	}
 	
+	public Gebruiker getGebruiker(Gebruiker gebruiker) {
+		Gebruiker gebruikerUitDatabase;
+		Iterator itr = getAll().iterator();
+		while (itr.hasNext()) {
+			gebruikerUitDatabase = (Gebruiker) itr.next();
+			if (gebruikerUitDatabase.equals(gebruiker)) {
+				if (gebruikerUitDatabase.getWachtwoord().equals(gebruiker.getWachtwoord())) {
+					return gebruikerUitDatabase;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public List<String> getCookies() {
+		 return getAll().stream().map(gebruiker -> gebruiker.getCookie())
+				 .filter(cookie->cookie!=null).collect(Collectors.toList());
+	}
+	
+	public Gebruiker getGebruikerByCookie(Cookie[] cookies) {
+		if (cookies != null) {
+			if (cookies.length>1) {
+				System.out.println("more than one cookie found");
+			}
+			return gebruikerRepository.findByCookie(cookies[0]).get(0);
+    	} else {
+    		throw new NullPointerException("No cookies found");
+    	}
+	}
+	
+	public boolean hasCookie(String cookie) {
+        if (cookie!= null) {
+            return getCookies().contains(cookie);
+        }
+		return false;
+	}
+	
 	public List<Gebruiker> getAll() {
 		return (List<Gebruiker>)gebruikerRepository.findAll();
+	}
+	
+	public List<Gebruiker> getGebruikerByCookie(Cookie cookie) {
+		return gebruikerRepository.findByCookie(cookie);
+	}
+	
+	public boolean containsEmail(String mail) {
+		return getAll().stream().map(i->i.getEmail())
+		.anyMatch(email -> email.equalsIgnoreCase(email));
 	}
 	
 	public void addLogboekdag(Logboekdag logboekdag,int id) {

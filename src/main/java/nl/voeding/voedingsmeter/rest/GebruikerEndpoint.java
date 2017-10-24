@@ -1,7 +1,13 @@
 package nl.voeding.voedingsmeter.rest;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,23 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import nl.voeding.voedingsmeter.enums.Eenheid;
-import nl.voeding.voedingsmeter.enums.Productgroep;
 import nl.voeding.voedingsmeter.model.Gebruiker;
-import nl.voeding.voedingsmeter.model.LocalDateDeserializer;
-import nl.voeding.voedingsmeter.model.LocalDateSerializer;
 import nl.voeding.voedingsmeter.model.Logboekdag;
-import nl.voeding.voedingsmeter.model.Product;
 import nl.voeding.voedingsmeter.service.GebruikerService;
 import nl.voeding.voedingsmeter.service.LogboekdagService;
-import nl.voeding.voedingsmeter.service.ProductService;
 
 @RestController
 public class GebruikerEndpoint {
@@ -40,9 +35,46 @@ public class GebruikerEndpoint {
 	
 	@GetMapping("/createGebruiker")
 	public Gebruiker createGebruiker() {
-		Gebruiker gebruiker = new Gebruiker("Karen",LocalDate.of(1989, 12, 25),1.7f);
-		gebruikerService.save(gebruiker);
+		Gebruiker gebruiker = new Gebruiker("Karen",LocalDate.of(1989, 12, 25),1.7f,"ff4nu@hotmail.com","wachtwoord");
+		//Gebruiker gebruiker = new Gebruiker("Karen","25-12-1989",1.7f,"ff4nu@hotmail.com","wachtwoord");
+		gebruikerService.save(gebruiker);		
 		return gebruiker;
+	}
+	
+	
+	@RequestMapping("/gebruikerLogin")
+	public boolean gebruikerLogin(@RequestBody Gebruiker gebruiker,HttpServletRequest request,
+            HttpServletResponse response) {
+		System.out.println("gebruikerLogin");
+		Gebruiker gebruikerUitDatabase = gebruikerService.getGebruiker(gebruiker);
+		if (gebruikerUitDatabase != null) {
+			Cookie cookie = cookieGenerator();
+			gebruikerUitDatabase.setCookie(cookie.getValue());
+			response.addCookie(cookie);
+			gebruikerService.save(gebruikerUitDatabase);
+			return true;
+		}
+		System.out.println("gebruiker is null");
+		return false;
+	}
+	
+	@RequestMapping("/navBarLogboekToegang")
+	public boolean navBarLogboekToegangGebruiker(HttpServletRequest request,HttpServletResponse response) {
+		System.out.println("navBarLogboekToegang");
+		Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            return Arrays.stream(cookies)
+            		     .anyMatch(cookie ->gebruikerService.hasCookie(cookie.getValue()));
+        }
+        return false;
+	}
+	
+	private Cookie cookieGenerator() {
+	    SecureRandom random = new SecureRandom();
+	    int number =random.nextInt();
+	    Cookie newCookie = new Cookie("cookie",number+"");
+  		newCookie.setMaxAge(24 * 60 * 60);
+  		return newCookie;	      
 	}
 
 	@PostMapping("/addLogboekdagToGebruiker/{id}")
@@ -57,12 +89,16 @@ public class GebruikerEndpoint {
 		return gebruikerService.getAll();
 	}
 	
+	
+	
 	@PostMapping("/GebruikerPost")
-	public String postEntiteit(@RequestBody Gebruiker gebruiker) {
-		System.out.println("Jojo");
-		System.out.println(gebruiker.getNaam());
-		gebruikerService.save(gebruiker);
-		return "happy";
+	public boolean postGebruiker(@RequestBody Gebruiker gebruiker){
+		System.out.println("gebruikerPost");
+		if (!gebruikerService.containsEmail(gebruiker.getEmail())) {
+			gebruikerService.save(gebruiker);
+			return true;
+		}
+		return false;
 	}
 	
     @GetMapping("/getGebruikerById/{id}")

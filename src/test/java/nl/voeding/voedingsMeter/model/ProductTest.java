@@ -18,8 +18,8 @@ public class ProductTest {
 
 	@Test
 	public void ProductHoeveelheidTest() {
-		product.setHoeveelheid(-3f);
-		assertEquals(0, product.getHoeveelheid(), 0);
+		product.setInhoud(-3f);
+		assertEquals(0, product.getInhoud(), 0);
 	}
 	
 }

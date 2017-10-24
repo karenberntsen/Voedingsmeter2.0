@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import nl.voeding.voedingsmeter.model.Gebruiker;
 import nl.voeding.voedingsmeter.model.Logboekdag;
 import nl.voeding.voedingsmeter.repositories.LogboekdagRepository;
 
@@ -28,6 +29,7 @@ public class LogboekdagService {
 		return (List<Logboekdag>)logboekdagRepository.findAll();
 	}
 	
+	
 	public Logboekdag getLogboekdagById(int id) {
 		System.out.println("Service:getLogboekdagById"+id);
 	    return logboekdagRepository.findOne((long)id);
@@ -36,6 +38,10 @@ public class LogboekdagService {
 	public void delLogboekdagById(int id) {
 		System.out.println("Service:delLogboekdagById"+id);		
 		logboekdagRepository.delete((long)id);
+	}
+	
+	public List<Logboekdag> getLogboekByUser(Gebruiker gebruiker) {
+		return logboekdagRepository.findByGebruiker(gebruiker);
 	}
 	
 }
