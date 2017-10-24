@@ -1,5 +1,6 @@
 package nl.voeding.voedingsmeter.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -13,5 +14,7 @@ import nl.voeding.voedingsmeter.model.Product;
 public interface LogboekdagRepository extends CrudRepository<Logboekdag, Long> {
 
 	public List<Logboekdag> findByGebruiker(Gebruiker gebruiker);
+	
+	public List<Logboekdag> findByGebruikerAndDatum(Gebruiker gebruiker,LocalDate datum);
 	
 }

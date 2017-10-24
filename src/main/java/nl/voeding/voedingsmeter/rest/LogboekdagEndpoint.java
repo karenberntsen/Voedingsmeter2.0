@@ -66,11 +66,19 @@ public class LogboekdagEndpoint {
 	}
 	
 	@PostMapping("/LogboekdagPost")
-	public String postEntiteit(@RequestBody Logboekdag logboekdag) {
-		System.out.println("Jojo");
+	public boolean postEntiteit(@RequestBody Logboekdag logboekdag,HttpServletRequest request) {
 		System.out.println(logboekdag.getDatum().toString());
+		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
+		if (logboekdagService.existsByGebruikerAndDate(gebruiker, logboekdag.getDatum())) {
+			return false;
+		}
+		logboekdag.setGebruiker(gebruiker);
 		logboekdagService.save(logboekdag);
-		return "happy";
+		return true;
+	}
+	
+	public void getDataFromLogboekdag(@RequestBody LocalDate datum ) {
+		
 	}
 	
     @GetMapping("/getLogboekdagById/{id}")

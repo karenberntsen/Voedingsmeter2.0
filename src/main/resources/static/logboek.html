@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="./js/objectVersturen.js"></script>
+    <script src="./js/validDate.js"></script>
     <script src="./js/accessRegulator.js"></script>
     <script src="./js/createDropdown.js"></script>
     
@@ -54,28 +55,24 @@
 			<div class="col-md-4">
 				<form id="kiesLogboekdag">
 					<div class="form-group">
-			    	<label class="control-label col-sm-2">Kies logboekdag:</label>
-      				<div class="col-sm-10">          
-        				<select class="selectpicker" id="logboek" required/>
-						</select>
-      				</div>
-			  		<input type="button" onclick="gebruikerLogin()" class="btn btn-default" value="Log in">
+			    		<label class="control-label col-sm-10">Kies dag:</label>
+	      				<div class="col-sm-10">          
+    	    				<select class="selectpicker" id="logboek" required/>
+							</select>
+      					</div>
+			  			<br><input type="button" onclick="kiesLogboekdag()" class="btn btn-default" value="Naar logboekdag">
 				</form>
 			</div>
 		</div>
-	<div>
-	<br>
-	<p>Heeft u nog geen account?</p>
-	<form action="registreer.html">
-		<input type="submit" class="btn btn-default" value="Registreer">
-	</form>
+		<div>
+			<br>
+			<form id="logboekdagInputForm"> <!--action="registreer.html"-->
+			   	<input id="datum" type="text" class="form-control" maxlength="10" placeholder="dd-mm-jjjj" required/>
+				<br>
+				<input type="button" onclick="nieuweLogboekdag()" class="btn btn-default" value="Voeg nieuwe dag toe">
+			</form>
+		</div>
 	</div>
-	</div>
-
-	<div id="outputserver"></div>
-
-
-
 
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

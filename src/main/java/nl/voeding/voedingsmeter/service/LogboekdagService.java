@@ -1,4 +1,5 @@
 package nl.voeding.voedingsmeter.service;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class LogboekdagService {
 		return (List<Logboekdag>)logboekdagRepository.findAll();
 	}
 	
+	public boolean existsByGebruikerAndDate(Gebruiker gebruiker,LocalDate datum) {
+		System.out.println("existsByGebruikerAndDate: datum="+datum.toString()+", gebruiker="+gebruiker.getGebruikersNaam());
+		List<Logboekdag> result = logboekdagRepository.findByGebruikerAndDatum(gebruiker, datum);
+		System.out.println("result is null?: "+result==null);
+		System.out.println(result.toString());
+		System.out.println(result.isEmpty());
+		return !result.isEmpty();
+	}
 	
 	public Logboekdag getLogboekdagById(int id) {
 		System.out.println("Service:getLogboekdagById"+id);

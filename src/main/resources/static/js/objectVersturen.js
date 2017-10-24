@@ -1,18 +1,46 @@
 /**
  * 
  */
+function nieuweLogboekdag() {
+	console.log("nieuwe logboekdag");
+	datumElement=document.getElementById("datum");
+	result = changeDatumInputFormStyle(datumElement);
+	if (result==true) {
+		objectVersturen("logboekdagInputForm","LogboekdagPost",redirectIfTrue,getUrlLogboekdag(datumElement.value));
+		//postData("LogboekdagPost", JSON.stringify(datumElement.value),redirectIfTrue,getUrlLogboekdag(datumElement.value));
+	}
+}
+
+function getUrlLogboekdag(datum) {
+	return "logboekdag.html?datum="+datum;
+}
+
+function kiesLogboekdag() {
+	console.log("kies logboekdag");
+	datum=document.getElementById("logboek").value;
+	window.location.replace(getUrlLogboekdag(datum));
+}
+
+
+function changeDatumInputFormStyle(element) {
+	var datum = element.value;
+	if (validDate(datum)) {
+		element.style.border="1px solid rgba(0,0,0,.15)";
+		return true;
+	} else {
+		element.style.border="1px solid red";
+		return false;
+	}
+}
+
 function registreren() {
 	console.log("registreren");
 	geboortedatumElement=document.getElementById("geboortedatum");
 	console.log(geboortedatumElement);
-	var geboortedatum = geboortedatumElement.value;
-	if (validDate(geboortedatum)) {
-		geboortedatumElement.style.border="1px solid rgba(0,0,0,.15)";
+	result = changeDatumInputFormStyle(geboortedatumElement);
+	if (result==true) {
 		gebruikerVersturen();
-	} else {
-		geboortedatumElement.style.border="1px solid red";
 	}
-
 }
 
 function gebruikerLogin() {

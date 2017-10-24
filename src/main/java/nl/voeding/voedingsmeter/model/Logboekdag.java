@@ -108,4 +108,17 @@ public class Logboekdag {
 		this.datum = datum;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Logboekdag) {
+			   Logboekdag andereLogboekdag = (Logboekdag) obj;
+			   if (this.id.equals(andereLogboekdag.getId())) {
+				   return true;
+			   } else if (this.datum.equals(andereLogboekdag.getDatum())) {
+				   return true;
+			   }
+			}
+			return false;
+	}
+
 }
