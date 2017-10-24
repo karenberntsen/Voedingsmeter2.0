@@ -106,7 +106,7 @@ public class Gebruiker {
 	}
 	
 	@NotNull
-	@OneToMany
+	@OneToMany(mappedBy="gebruiker")
 	@JsonIgnore
 	public Set<Logboekdag> getLogboek() {
 		return logboek;

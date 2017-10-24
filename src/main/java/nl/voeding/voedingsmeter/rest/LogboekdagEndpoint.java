@@ -2,9 +2,12 @@ package nl.voeding.voedingsmeter.rest;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +59,10 @@ public class LogboekdagEndpoint {
 	}
 	
 	@GetMapping("/getLogboekFromGebruiker")
-	public LocalDate[] getLogboekFromGebruiker(HttpServletRequest request) {
+	public List<LocalDate> getLogboekFromGebruiker(HttpServletRequest request) {
 		System.out.println("getLogboek");
 		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
-		//logboekdagService.getLogboekByUser(gebruiker);
-		System.out.println(gebruiker.getLogboek().stream().map(lb->lb.getDatum()).toArray(LocalDate[]::new));
-		return gebruiker.getLogboek().stream().map(lb->lb.getDatum()).toArray(LocalDate[]::new);
+		return gebruiker.getLogboek().stream().map(lb->lb.getDatum()).collect(Collectors.toList());
 	}
 	
 	@PostMapping("/LogboekdagPost")
