@@ -1,6 +1,7 @@
 package nl.voeding.voedingsmeter.rest;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class LogboekdagEndpoint {
 		gebruikerService.save(gebruiker);
 		Logboekdag logboekdag = new Logboekdag(gebruiker);
 		logboekdagService.save(logboekdag);
+		Logboekdag logboekdag2 = new Logboekdag(gebruiker,LocalDate.of(2017, 10, 10));
+		logboekdagService.save(logboekdag2);
 		return logboekdag;
 	}
 
@@ -68,5 +71,11 @@ public class LogboekdagEndpoint {
 		System.out.println("delLogboekdagById"+id);
 	    logboekdagService.delLogboekdagById(id);
 	}
+    
+    @GetMapping("/getLogboekdagByUser")
+    public Set<Logboekdag> getLogboekdagByUser(Gebruiker gebruiker) {
+    	Set<Logboekdag> logboek = gebruiker.getLogboek();
+    	return logboek;
+    }
 
 }

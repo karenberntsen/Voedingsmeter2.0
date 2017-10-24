@@ -60,6 +60,10 @@ public class GebruikerService {
 		return (List<Gebruiker>)gebruikerRepository.findAll();
 	}
 	
+	public List<Gebruiker> getGebruikerByCookie(Cookie cookie) {
+		return gebruikerRepository.findByCookie(cookie);
+	}
+	
 	public boolean containsEmail(String mail) {
 		return getAll().stream().map(i->i.getEmail())
 		.anyMatch(email -> email.equalsIgnoreCase(email));
