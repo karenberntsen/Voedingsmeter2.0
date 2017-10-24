@@ -49,7 +49,7 @@ public class GebruikerEndpoint {
 		Gebruiker gebruikerUitDatabase = gebruikerService.getGebruiker(gebruiker);
 		if (gebruikerUitDatabase != null) {
 			Cookie cookie = cookieGenerator();
-			gebruikerUitDatabase.setCookie(cookie);
+			gebruikerUitDatabase.setCookie(cookie.getValue());
 			response.addCookie(cookie);
 			gebruikerService.save(gebruikerUitDatabase);
 			return true;

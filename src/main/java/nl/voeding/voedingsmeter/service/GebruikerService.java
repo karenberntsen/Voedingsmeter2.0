@@ -46,14 +46,27 @@ public class GebruikerService {
 		return null;
 	}
 	
-	public List<String> getCookieStrings() {
+	public List<String> getCookies() {
 		 return getAll().stream().map(gebruiker -> gebruiker.getCookie())
-				 .filter(cookie->cookie!=null).map(cookie->cookie.getValue()).collect(Collectors.toList());
+				 .filter(cookie->cookie!=null).collect(Collectors.toList());
 	}
 	
-	public boolean hasCookie(String cookieString) {
-		List<String> cookieStrings = getCookieStrings();
-		return getCookieStrings().contains(cookieString);
+	public Gebruiker getGebruikerByCookie(Cookie[] cookies) {
+		if (cookies != null) {
+			if (cookies.length>1) {
+				System.out.println("more than one cookie found");
+			}
+			return gebruikerRepository.findByCookie(cookies[0]).get(0);
+    	} else {
+    		throw new NullPointerException("No cookies found");
+    	}
+	}
+	
+	public boolean hasCookie(String cookie) {
+        if (cookie!= null) {
+            return getCookies().contains(cookie);
+        }
+		return false;
 	}
 	
 	public List<Gebruiker> getAll() {

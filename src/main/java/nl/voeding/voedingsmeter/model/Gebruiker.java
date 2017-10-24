@@ -39,7 +39,7 @@ public class Gebruiker {
 
 	private String wachtwoord;
 	
-	private Cookie cookie;
+	private String cookie;
 	
 	//private Set<Lichaamssamenstelling> lichaamssamenstellingen = new HashSet<>();
 	
@@ -69,11 +69,11 @@ public class Gebruiker {
 		return gebruikersNaam;
 	}
 	
-	public Cookie getCookie() {
+	public String getCookie() {
 		return cookie;
 	}
 	
-	public void setCookie(Cookie cookie) {
+	public void setCookie(String cookie) {
 		this.cookie=cookie;
 	}
 	
