@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
+
 import nl.voeding.voedingsmeter.enums.Eenheid;
 import nl.voeding.voedingsmeter.enums.Productgroep;
 
@@ -136,6 +138,7 @@ public class Product {
 	}
 
 	@NotNull
+	@NaturalId
 	public String getNaam() {
 		return naam;
 	}
@@ -146,6 +149,7 @@ public class Product {
 	}
 
 	@NotNull
+	@NaturalId
 	@Enumerated(EnumType.STRING)
 	public Eenheid getEenheid() {
 		return eenheid;

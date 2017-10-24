@@ -87,11 +87,12 @@ public class Logboekdag {
 	
     @NotNull
     @ManyToOne
+    @NaturalId
 	public Gebruiker getGebruiker() {
 		return gebruiker;
 	}
 
-	public void setGebruiker(Gebruiker gebruiker) {
+	public void zetGebruiker(Gebruiker gebruiker) {
 		if (!gebruiker.containsLogboekdagFromDate(datum)) {
 			this.gebruiker = gebruiker;
 		} else {
@@ -99,7 +100,12 @@ public class Logboekdag {
 		}
 	}
 	
+	private void setGebruiker(Gebruiker gebruiker) {
+		this.gebruiker=gebruiker;
+	}
+	
 	@NotNull
+	@NaturalId
 	public LocalDate getDatum() {
 		return datum;
 	}

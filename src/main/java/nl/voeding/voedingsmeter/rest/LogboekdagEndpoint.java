@@ -72,7 +72,7 @@ public class LogboekdagEndpoint {
 		if (logboekdagService.existsByGebruikerAndDate(gebruiker, logboekdag.getDatum())) {
 			return false;
 		}
-		logboekdag.setGebruiker(gebruiker);
+		logboekdag.zetGebruiker(gebruiker);
 		logboekdagService.save(logboekdag);
 		return true;
 	}

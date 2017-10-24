@@ -2,11 +2,12 @@
  * 
  */
 function validDate(date) {
+	console.log("validDate on "+date);
 	var dateArray=date.split("-");
-	return validDate(dateArray[0],dateArray[1].dateArray[2]);
+	return validDateByComponents(dateArray[0],dateArray[1],dateArray[2]);
 }
 
-function validDate(month, day, year)
+function validDateByComponents(month, day, year)
 {
    // Test for leap year
     if ((year % 400 == 0) || (year % 4 == 0) &&

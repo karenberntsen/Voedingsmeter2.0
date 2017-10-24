@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 import javax.servlet.http.Cookie;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -126,6 +127,7 @@ public class Gebruiker {
 	}
 
 	@NotNull
+	@NaturalId
 	public String getEmail() {
 		return email;
 	}
