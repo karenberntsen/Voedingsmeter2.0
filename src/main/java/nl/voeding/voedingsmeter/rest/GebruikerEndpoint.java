@@ -94,8 +94,9 @@ public class GebruikerEndpoint {
 	@PostMapping("/GebruikerPost")
 	public boolean postGebruiker(@RequestBody Gebruiker gebruiker){
 		System.out.println("gebruikerPost");
-		if (!gebruikerService.containsEmail(gebruiker.getEmail())) {
+		if (!gebruikerService.bevatEmail(gebruiker.getEmail())) {
 			gebruikerService.save(gebruiker);
+			System.out.println("gebruiker saved: "+gebruiker.toString());
 			return true;
 		}
 		return false;

@@ -77,9 +77,8 @@ public class GebruikerService {
 		return gebruikerRepository.findByCookie(cookie);
 	}
 	
-	public boolean containsEmail(String mail) {
-		return getAll().stream().map(i->i.getEmail())
-		.anyMatch(email -> email.equalsIgnoreCase(email));
+	public boolean bevatEmail(String mail) {
+		return getAll().stream().map(i->i.getEmail()).anyMatch(email -> email.equalsIgnoreCase(mail));
 	}
 	
 	public void addLogboekdag(Logboekdag logboekdag,int id) {

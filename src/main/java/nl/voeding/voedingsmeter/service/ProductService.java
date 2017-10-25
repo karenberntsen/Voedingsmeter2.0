@@ -25,6 +25,10 @@ public class ProductService {
 		return product;
 	}
 	
+	public List<Product> getByName(String naam) {
+		return (List<Product>) productRepository.findByNaamLikeIgnoreCase(naam);
+	}
+	
 	public List<Product> getAll() {
 		return (List<Product>)productRepository.findAll();
 	}

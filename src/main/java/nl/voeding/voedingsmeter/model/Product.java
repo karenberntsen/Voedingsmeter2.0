@@ -54,7 +54,7 @@ public class Product {
 	public Product(String naam, Float inhoud, Eenheid eenheid, Productgroep productgroep, Float kcal, Float eiwit, Float vet,
 			Float verzadigdVet, Float onverzadigdVet, Float koolhydraten, Float suikers, Float fructose, Float vezels,
 			Float zout,String bron) {
-		this.naam = naam;
+		setNaam(naam);
 		this.inhoud = inhoud;
 		this.eenheid = eenheid;
 		this.productgroep = productgroep;
@@ -76,7 +76,7 @@ public class Product {
 	}
 
 	public void setNaam(String naam) {
-		this.naam = naam;
+		this.naam = naam.substring(0,1).toUpperCase() + naam.substring(1);
 	}
 
 	public void setInhoud(Float inhoud) {
@@ -149,7 +149,6 @@ public class Product {
 	}
 
 	@NotNull
-	@NaturalId
 	@Enumerated(EnumType.STRING)
 	public Eenheid getEenheid() {
 		return eenheid;

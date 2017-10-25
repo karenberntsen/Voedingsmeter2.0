@@ -33,10 +33,18 @@ public class LogboekdagService {
 	public boolean existsByGebruikerAndDate(Gebruiker gebruiker,LocalDate datum) {
 		System.out.println("existsByGebruikerAndDate: datum="+datum.toString()+", gebruiker="+gebruiker.getGebruikersNaam());
 		List<Logboekdag> result = logboekdagRepository.findByGebruikerAndDatum(gebruiker, datum);
-		System.out.println("result is null?: "+result==null);
-		System.out.println(result.toString());
-		System.out.println(result.isEmpty());
 		return !result.isEmpty();
+	}
+	
+	public Logboekdag getLogboekdagByGebruikerAndDatum(Gebruiker gebruiker, LocalDate datum) {
+		List<Logboekdag> logboekdagen = logboekdagRepository.findByGebruikerAndDatum(gebruiker, datum);
+		if (logboekdagen.isEmpty()) {
+			throw new NullPointerException("logboekdag is leeg");
+		}
+		if (logboekdagen.size() >1) {
+			System.out.println("Waarschuwing: meerdere logboeken van dezelfde gebruiker met dezelfde datum gevonden!");
+		}
+		return logboekdagen.get(0);
 	}
 	
 	public Logboekdag getLogboekdagById(int id) {

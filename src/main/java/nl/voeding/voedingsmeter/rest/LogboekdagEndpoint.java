@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import nl.voeding.voedingsmeter.JacksonConfig;
 import nl.voeding.voedingsmeter.enums.Eenheid;
 import nl.voeding.voedingsmeter.enums.Productgroep;
 import nl.voeding.voedingsmeter.model.Gebruiker;
 import nl.voeding.voedingsmeter.model.Logboekdag;
 import nl.voeding.voedingsmeter.model.Product;
+import nl.voeding.voedingsmeter.model.ProductHoeveelheid;
 import nl.voeding.voedingsmeter.service.GebruikerService;
 import nl.voeding.voedingsmeter.service.LogboekdagService;
 import nl.voeding.voedingsmeter.service.ProductService;
@@ -77,9 +79,14 @@ public class LogboekdagEndpoint {
 		return true;
 	}
 	
-	public void getDataFromLogboekdag(@RequestBody LocalDate datum ) {
-		
+	@GetMapping("/getDataFromLogboekdag") //check return format in JSON
+	public Set<ProductHoeveelheid> getDataFromLogboekdag(HttpServletRequest request) {
+		LocalDate datum = LocalDate.parse(request.getQueryString(),JacksonConfig.FORMATTER);
+		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
+		Logboekdag logboekdag = logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
+		return logboekdag.getProducten();
 	}
+	
 	
     @GetMapping("/getLogboekdagById/{id}")
 	public Logboekdag getLogboekdagById(@PathVariable int id) {
@@ -92,11 +99,5 @@ public class LogboekdagEndpoint {
 		System.out.println("delLogboekdagById"+id);
 	    logboekdagService.delLogboekdagById(id);
 	}
-    
-    @GetMapping("/getLogboekdagByUser")
-    public Set<Logboekdag> getLogboekdagByUser(Gebruiker gebruiker) {
-    	Set<Logboekdag> logboek = gebruiker.getLogboek();
-    	return logboek;
-    }
 
 }
