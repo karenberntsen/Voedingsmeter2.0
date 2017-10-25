@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -53,6 +54,18 @@ public class Logboekdag {
 	public Logboekdag(Gebruiker gebruiker,LocalDate datum) {
 		this.datum = datum;
 		setGebruiker(gebruiker);
+	}
+	
+	public boolean addProductHoeveelheid(ProductHoeveelheid productHoeveelheid) {
+		Optional<ProductHoeveelheid> productHoeveelheidOptional = producten.stream()
+				 .filter(ph->ph.getProduct().equals(productHoeveelheid.getProduct()))
+				 .findFirst();
+		if (productHoeveelheidOptional.isPresent()) {
+			productHoeveelheidOptional.get().add(productHoeveelheid.getHoeveelheid());
+		} else {
+			producten.add(productHoeveelheid);
+		}
+		return true;
 	}
 	
 	public boolean removeProduct(Product product) {
