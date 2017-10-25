@@ -41,10 +41,10 @@
         		<a class="nav-link" href="producten.html">Producten toevoegen</a>
       		</li>
       		<li class="nav-item">
-        		<a class="nav-link" href="login.html">Log in</a>
+        		<a class="nav-link" href="login.html" id=logintab>Log in</a>
       		</li>
       		<li class="nav-item">
-        		<a class="nav-link disabled" id = "logboektab" href="logboek.html">Logboek</a>
+        		<a class="nav-link disabled" id = "logboektab" onclick="logOut(); return true;" href="logboek.html">Logboek</a>
       		</li>
     	</ul>
   	</div>
@@ -77,26 +77,26 @@
 			  <table class="table table-condensed">
     <thead>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
+        <th>Product</th>
+        <th>Hoeveelheid</th>
+        <th>Eenheid</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
+        <td>Peer</td>
+        <td>20</td>
+        <td>GRAM</td>
       </tr>
       <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
+        <td>Perzik</td>
+        <td>50</td>
+        <td>GRAM</td>
       </tr>
       <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
+        <td>Aardbei</td>
+        <td>30</td>
+        <td>GRAM</td>
       </tr>
     </tbody>
   </table>

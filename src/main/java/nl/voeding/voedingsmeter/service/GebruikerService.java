@@ -77,6 +77,12 @@ public class GebruikerService {
 		return gebruikerRepository.findByCookie(cookie);
 	}
 	
+	public List<Gebruiker> getGebruikersByCookies(String[] cookies) {
+		return Arrays.stream(cookies)
+				     .flatMap(cookie->gebruikerRepository.findByCookie(cookie).stream())
+				     .collect(Collectors.toList());
+	}
+	
 	public boolean bevatEmail(String mail) {
 		return getAll().stream().map(i->i.getEmail()).anyMatch(email -> email.equalsIgnoreCase(mail));
 	}
@@ -96,6 +102,11 @@ public class GebruikerService {
 	public void delGebruikerById(int id) {
 		System.out.println("Service:delGebruikerById"+id);		
 		gebruikerRepository.delete((long)id);
+	}
+
+	public void delCookies(Cookie[] cookies) {
+		String[] cookiesString = Arrays.stream(cookies).map(cookie->cookie.getValue()).toArray(String[]::new);
+		getGebruikersByCookies(cookiesString).stream().forEach(gebruiker->gebruiker.setCookie(null));
 	}
 	
 }

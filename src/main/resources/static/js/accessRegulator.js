@@ -4,21 +4,30 @@
 
 
 function setLogboekNavBarAccess() {
-	getData("navBarLogboekToegang",enableToegangNavBar,"logboektab");
+	getData("navBarLogboekToegang",enableToegangNavBar,"");
 }
 
-function enableToegangNavBar(response,elementId) {
+function enableToegangNavBar(response,variable) {
 	if (response=="true") {
 		console.log("got true back from database");
-		document.getElementById(elementId).className="nav-link";
-		document.getElementById(elementId).href="logboek.html";
+		document.getElementById("logboektab").className="nav-link";
+		document.getElementById("logboektab").href="logboek.html";
+		console.log($( "#logintab" ));
+		console.log($( "#logintab" ).text);
+		$( "#logintab" ).text("Log uit");
 	} else {
 		console.log("got false back from database");
-		document.getElementById(elementId).className="nav-link disabled";
-		document.getElementById(elementId).href="#";
+		document.getElementById("logboektab").className="nav-link disabled";
+		document.getElementById("logboektab").href="#";
+		console.log($( "#logintab" ));
+		console.log($( "#logintab" ).text);
+		$( "#logintab" ).text("Log in");
 	}
 }
 
+function logOut() {
+	
+}
 
 function getData(api, functieCallback,elementId){
 	var xhttp = new XMLHttpRequest();

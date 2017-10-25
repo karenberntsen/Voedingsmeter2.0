@@ -45,7 +45,8 @@ public class ProductHoeveelheidEndpoint {
 	
 	@PostMapping("/ProductHoeveelheidPost")
 	public boolean postEntiteit(@RequestBody ProductHoeveelheid productHoeveelheid,HttpServletRequest request) {
-		System.out.println("producthoeveelheid of: "+productHoeveelheid.getProduct().getNaam());
+		System.out.println("producthoeveelheid of: "+productHoeveelheid.getProduct().getId());
+		System.out.println(request.getCookies());
 		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
 		LocalDate datum = LocalDate.parse(request.getQueryString(),JacksonConfig.FORMATTER);
 		Logboekdag logboekdag = logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
