@@ -6,10 +6,69 @@
 
 
 function laadTabelLogboekdag() {
-	getData("getProductHoeveelhedenFromLogboekdag/"+window.location.href.split('?datum=')[1], maakDropdown,"eenheid");
+	var datum=window.location.href.split('?datum=')[1];
+	document.getElementById("logboekdagheader").innerHTML=datum;
+	getData("getProductHoeveelhedenFromLogboekdag/"+datum, maakLogboekTabel,"logboekTabel");
+	}
+
+function maakLogboekTabel(dataFromDatabase,elementId) {
+ 	console.log("maakLogboekTabel");
+	console.log(dataFromDatabase);
+	var producthoeveelheden = JSON.parse(dataFromDatabase);
+ 	if (producthoeveelheden.length==0) {
+	 	return;
+	}
+ 	console.log(producthoeveelheden);
+ 	console.log(producthoeveelheden[0]["id"]);
+ 	logboekTabel=document.getElementById(elementId);
+ 	logboekTabel.innerHTML=""
+ 	logboekTabelHeadRow=logboekTabel.createTHead().insertRow(0);
+ 	var doHead=true;
+ 	sumrow={};
+ 	for (var i = 0; i < producthoeveelheden.length; i++) {
+ 		var row=logboekTabel.insertRow();
+ 		var obj=producthoeveelheden[i]["product"];
+ 		for (var property in obj) {
+ 		    if (obj.hasOwnProperty(property) && property!="id") {
+ 		    	if (property=="inhoud") {
+ 		    		property="hoeveelheid";
+ 		    		value=producthoeveelheden[i]["hoeveelheid"];
+ 		    		sumrow[property]=null;
+ 		    	} else if (typeof obj[property] == 'number') {
+ 		    		var value =parseFloat(obj[property]*producthoeveelheden[i]["hoeveelheid"]/obj["inhoud"]);
+ 		    		if (sumrow[property]==null) {
+ 		    			sumrow[property]=null;
+ 		    		}
+ 		    		if (value!=null) {
+ 		    			if (sumrow[property]==null) {
+ 		    				sumrow[property]=value;	
+ 		    			} else {
+ 		    				sumrow[property]+=value;
+ 		    			}
+ 		    		}
+ 		    	} else {
+ 		    		if (sumrow[property]==null) {
+ 		    			sumrow[property]=null;	
+ 		    		}
+ 		    		value = obj[property];
+ 		    	}
+ 		    	if (doHead) {
+ 		    	 	var headCell = logboekTabelHeadRow.insertCell();
+ 		    	 	headCell.innerHTML=camelCaseToFirstUpperCase(property);
+ 		    	}
+ 		    	row.insertCell().innerHTML=value;
+ 		    }
+ 		}
+ 		doHead=false;
+ 	}
+	var row=logboekTabel.insertRow();
+	sumrow["naam"]="Totaal";
+	console.log(sumrow);
+ 	for (var sumprop in sumrow) {
+ 		row.insertCell().innerHTML=sumrow[sumprop];
+ 	}
+// 	sumTable(elementId);
 }
-
-
 
 function voegProductToeAanLogboekdag() {
 	var producthoeveelheid= {};
@@ -18,7 +77,7 @@ function voegProductToeAanLogboekdag() {
 	producthoeveelheid["hoeveelheid"]=document.getElementById("hoeveelheid").value;
 	producthoeveelheid["product"]=product;
 	console.log(producthoeveelheid);
-	postData("ProductHoeveelheidPost/"+window.location.href.split('?datum=')[1], JSON.stringify(producthoeveelheid),function(a){},"");
+	postData("ProductHoeveelheidPost/"+window.location.href.split('?datum=')[1], JSON.stringify(producthoeveelheid),laadTabelLogboekdag(),"");
 }
 
 $(document).ready(function() {

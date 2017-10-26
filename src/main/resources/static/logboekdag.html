@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- Bootstrap CSS -->
@@ -13,6 +13,8 @@
     <script src="./js/accessRegulator.js"></script>
     <script src="./js/productCalculator.js"></script>
 	<script src="./js/objectVersturen.js"></script>
+	<script src="./js/createDropdown.js"></script>
+
 	
     <script>
 		window.onload=function(){ beginFunctie();}
@@ -52,7 +54,7 @@
 	</nav>
 
 <div class="container">
-  		<h2>Logboekdag</h2>
+  		<h2 id=logboekdagheader>Logboekdag</h2>
 	<div class="row">
 		<div class="col-md-4">
 			<form id="productSelectie">
@@ -74,31 +76,7 @@
 			</form>
 		</div>
 		<div class="col-md-4">
-			  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Hoeveelheid</th>
-        <th>Eenheid</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Peer</td>
-        <td>20</td>
-        <td>GRAM</td>
-      </tr>
-      <tr>
-        <td>Perzik</td>
-        <td>50</td>
-        <td>GRAM</td>
-      </tr>
-      <tr>
-        <td>Aardbei</td>
-        <td>30</td>
-        <td>GRAM</td>
-      </tr>
-    </tbody>
+<table class="table table-condensed" id="logboekTabel">
   </table>
   </div>
 		</div>
