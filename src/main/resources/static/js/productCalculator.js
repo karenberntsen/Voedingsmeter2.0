@@ -16,7 +16,7 @@ function voegProductToeAanLogboekdag() {
 	producthoeveelheid["hoeveelheid"]=document.getElementById("hoeveelheid").value;
 	producthoeveelheid["product"]=product;
 	console.log(producthoeveelheid);
-	postData("ProductHoeveelheidPost", JSON.stringify(producthoeveelheid),function(a){},"");
+	postData("ProductHoeveelheidPost/"+window.location.href.split('?datum=')[1], JSON.stringify(producthoeveelheid),function(a){},"");
 }
 
 $(document).ready(function() {

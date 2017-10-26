@@ -34,7 +34,9 @@ public class ProductHoeveelheidEndpoint {
 
 	@Autowired
 	ProductHoeveelheidService productHoeveelheidService;
+	@Autowired
 	GebruikerService gebruikerService;
+	@Autowired
 	LogboekdagService logboekdagService;
 	
 	@GetMapping("/getProductHoeveelheden")
@@ -43,15 +45,16 @@ public class ProductHoeveelheidEndpoint {
 		return productHoeveelheidService.getAll();
 	}
 	
-	@PostMapping("/ProductHoeveelheidPost")
-	public boolean postEntiteit(@RequestBody ProductHoeveelheid productHoeveelheid,HttpServletRequest request) {
+	@PostMapping("/ProductHoeveelheidPost/{datumString}")
+	public boolean postEntiteit(@RequestBody ProductHoeveelheid productHoeveelheid,@PathVariable String datumString, HttpServletRequest request) {
 		System.out.println("producthoeveelheid of: "+productHoeveelheid.getProduct().getId());
-		System.out.println(request.getCookies());
+		System.out.println(request.getQueryString());
 		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
-		LocalDate datum = LocalDate.parse(request.getQueryString(),JacksonConfig.FORMATTER);
+		LocalDate datum = LocalDate.parse(datumString,JacksonConfig.FORMATTER);
 		Logboekdag logboekdag = logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
-		
 		productHoeveelheidService.save(productHoeveelheid);
+		logboekdag.addProductHoeveelheid(productHoeveelheid);
+		logboekdagService.save(logboekdag);
 		return true;
 	}
 	

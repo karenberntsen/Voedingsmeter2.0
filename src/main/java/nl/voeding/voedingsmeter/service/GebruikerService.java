@@ -52,6 +52,7 @@ public class GebruikerService {
 	}
 	
 	public Gebruiker getGebruikerByCookie(Cookie[] cookies) {
+		for (Cookie koekje:cookies ) {System.out.println(koekje.getValue());}
 		if (cookies != null) {
 			if (cookies.length>1) {
 				System.out.println("more than one cookie found");
