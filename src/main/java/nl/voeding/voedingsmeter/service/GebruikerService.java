@@ -78,6 +78,7 @@ public class GebruikerService {
 	}
 	
 	public List<Gebruiker> getGebruikersByCookies(String[] cookies) {
+		System.out.println("getGebruikersByCookies");
 		return Arrays.stream(cookies)
 				     .flatMap(cookie->gebruikerRepository.findByCookie(cookie).stream())
 				     .collect(Collectors.toList());
@@ -105,6 +106,7 @@ public class GebruikerService {
 	}
 
 	public void delCookies(Cookie[] cookies) {
+		System.out.println("delCookies");
 		String[] cookiesString = Arrays.stream(cookies).map(cookie->cookie.getValue()).toArray(String[]::new);
 		getGebruikersByCookies(cookiesString).stream().forEach(gebruiker->gebruiker.setCookie(null));
 	}

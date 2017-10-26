@@ -13,20 +13,36 @@ function enableToegangNavBar(response,variable) {
 		document.getElementById("logboektab").className="nav-link";
 		document.getElementById("logboektab").href="logboek.html";
 		console.log($( "#logintab" ));
-		console.log($( "#logintab" ).text);
+		console.log($( "#logintab" ).text());
 		$( "#logintab" ).text("Log uit");
 	} else {
 		console.log("got false back from database");
 		document.getElementById("logboektab").className="nav-link disabled";
 		document.getElementById("logboektab").href="#";
 		console.log($( "#logintab" ));
-		console.log($( "#logintab" ).text);
+		console.log($( "#logintab" ).text());
 		$( "#logintab" ).text("Log in");
 	}
 }
 
 function logOut() {
-	
+	console.log("logout");
+	putData("/removeCookie",function(a){},"")
+	return true;
+}
+
+function putData(api, functieCallback,elementId){
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+  		if (this.readyState == 4 && this.status == 200) {
+				if (this.responseText!=null) {
+					functieCallback(this.responseText,elementId);
+				}
+  		}
+	};
+	xhttp.open("PUT", "http://localhost:8080/"+api);
+	xhttp.setRequestHeader("Content-type", "application/json");
+	xhttp.send();
 }
 
 function getData(api, functieCallback,elementId){

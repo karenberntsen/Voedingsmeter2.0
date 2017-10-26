@@ -117,6 +117,7 @@ public class GebruikerEndpoint {
 
     @PutMapping("/removeCookie")
     public void removeCookie(HttpServletRequest request) {
+    	System.out.println("removeCookie");
     	gebruikerService.delCookies(request.getCookies());
     }
     
