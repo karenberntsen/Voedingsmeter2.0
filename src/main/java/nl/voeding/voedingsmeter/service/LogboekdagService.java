@@ -1,6 +1,9 @@
 package nl.voeding.voedingsmeter.service;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.voeding.voedingsmeter.model.Gebruiker;
 import nl.voeding.voedingsmeter.model.Logboekdag;
+import nl.voeding.voedingsmeter.model.ProductHoeveelheid;
 import nl.voeding.voedingsmeter.repositories.LogboekdagRepository;
 
 @Service
@@ -59,6 +63,20 @@ public class LogboekdagService {
 	
 	public List<Logboekdag> getLogboekByUser(Gebruiker gebruiker) {
 		return logboekdagRepository.findByGebruiker(gebruiker);
+	}
+
+	public void delProductHoeveelheidFromLogboek(int id) {
+		System.out.println("delphfromlogboek "+id);
+		List<Logboekdag> logboeken = getAll();
+		for (Logboekdag lbd:logboeken) {
+			for(Iterator<ProductHoeveelheid> it = lbd.getProducten().iterator(); it.hasNext();){
+				ProductHoeveelheid ph = it.next();
+			    if (ph.getId().equals(new Long(id))){
+			        it.remove();
+			    }
+			}
+			save(lbd);
+		}
 	}
 	
 }

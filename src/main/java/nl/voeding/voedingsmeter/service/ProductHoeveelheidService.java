@@ -37,7 +37,7 @@ public class ProductHoeveelheidService {
 	}
 	
 	public void delProductHoeveelheidById(int id) {
-		System.out.println("Service:delProductHoeveelheidById"+id);		
+		System.out.println("Service:delProductHoeveelheidById"+id);
 		productHoeveelheidRepository.delete((long)id);
 	}
 	

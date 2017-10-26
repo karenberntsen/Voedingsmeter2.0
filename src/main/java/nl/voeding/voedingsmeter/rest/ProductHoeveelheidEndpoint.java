@@ -67,10 +67,16 @@ public class ProductHoeveelheidEndpoint {
 	public boolean postEntiteit(@RequestBody ProductHoeveelheid productHoeveelheid,@PathVariable String datumString, HttpServletRequest request) {
 		System.out.println("producthoeveelheid of: "+productHoeveelheid.getProduct().getId());
 		Logboekdag logboekdag = getLogboekdag(request,datumString);
-		productHoeveelheidService.save(productHoeveelheid);
-		logboekdag.addProductHoeveelheid(productHoeveelheid);
+		ProductHoeveelheid ph = logboekdag.addProductHoeveelheid(productHoeveelheid);
+		productHoeveelheidService.save(ph);
 		logboekdagService.save(logboekdag);
 		return true;
 	}
 	
+	@DeleteMapping("/delProductHoeveelheidById/{id}")
+    public void delProductById(@PathVariable int id) {
+		System.out.println("delProductHoeveelheidById"+id);
+		logboekdagService.delProductHoeveelheidFromLogboek(id);
+	    productHoeveelheidService.delProductHoeveelheidById(id);
+	}
 }

@@ -42,7 +42,22 @@
      		for (var i = 0; i < fields.length; i++) {
      			 var field = fields[i];
      			 if (document.getElementById(field)==null && field!="id") {
-     				var divje = document.createElement("div");
+      				inputTable=document.getElementById("addProductTable");
+      				var tablesize=$('#addProductTable tr').length;
+      				row=inputTable.insertRow(tablesize-1);
+      				labeltje=document.createElement("label");
+     				labeltje.className="control-label col-sm-2";
+     				var tekstNaam=field;
+     				labeltje.innerHTML=camelCaseToFirstUpperCase(tekstNaam)+":";
+     				row.insertCell().appendChild(labeltje);
+     				inputje=document.createElement("input");
+     				inputje.id=field;
+     				inputje.type="number";
+     				inputje.step=".1";
+     				inputje.className="form-control";
+     				row.insertCell().appendChild(inputje);
+     				 
+     	/*			var divje = document.createElement("div");
      				divje.className="form-group";
      				labeltje=document.createElement("label");
      				labeltje.className="control-label col-sm-2";
@@ -59,7 +74,7 @@
      				labeltje.appendChild(divje2);
      				divje.appendChild(labeltje);
      				inputForm=document.getElementById("productInputForm");
-     				inputForm.insertBefore(divje,document.getElementById("submitDiv"));
+     				inputForm.insertBefore(divje,document.getElementById("submitDiv"));*/
      			 }
 			}
   	   }

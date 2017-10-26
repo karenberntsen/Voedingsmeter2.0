@@ -54,7 +54,18 @@
   		<h2>Voeg product toe aan de database</h2>
   	<form class="form-horizontal" id="productInputForm">
     	<div class="form-group">
-      		<label class="control-label col-sm-2">Product:</label>
+    	<table id="addProductTable">
+    	<tr><td><label class="control-label col-sm-2">Product:</label></td><td><input id="naam" type="text" class="form-control" id="naam" placeholder="Productnaam" required/></td></tr>
+    	<tr><td><label class="control-label col-sm-2">Inhoud:</label></td><td><input id="inhoud" type="number" class="form-control" placeholder="100" required/></td></tr>
+    	<tr><td><label class="control-label col-sm-2">Eenheid:</label></td><td><select class="selectpicker" id="eenheid" required>
+				</select></td></tr>
+    	<tr><td><label class="control-label col-sm-2">Productgroep:</label></td><td><select class="selectpicker" id="productgroep" required/>
+				</select></td></tr>
+		<tr><td><label class="control-label col-sm-2">Bron:</label></td><td><input id="bron" type="text" class="form-control" required/></td></tr>
+		<tr><td></td><td><button type="submit" class="btn btn-default" onclick="productVersturen()">Voeg toe</button></td></tr>
+		
+    	</table>
+      		<!-- <label class="control-label col-sm-2">Product:</label>
       		<div class="col-sm-10">
         		<input id="naam" type="text" class="form-control" id="naam" placeholder="Productnaam" required/>
       		</div>
@@ -87,7 +98,7 @@
       		</div>
     	</div>
   </form>
-</div>
+ --></div>
 
 
 

@@ -218,6 +218,19 @@ public class Product {
 	public void setProductgroep(Productgroep productgroep) {
 		this.productgroep = productgroep;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Product) {
+			   Product anderProduct = (Product) obj;
+			   if (this.id.equals(anderProduct.getId())) {
+				   return true;
+			   } else if (this.naam.equalsIgnoreCase(anderProduct.getNaam())) {
+				   return true;
+			   }
+		}
+		return false;
+	}
 	
 	
 }

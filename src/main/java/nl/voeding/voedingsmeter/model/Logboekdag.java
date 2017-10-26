@@ -56,18 +56,24 @@ public class Logboekdag {
 		setGebruiker(gebruiker);
 	}
 	
-	public boolean addProductHoeveelheid(ProductHoeveelheid productHoeveelheid) {
+	public ProductHoeveelheid addProductHoeveelheid(ProductHoeveelheid productHoeveelheid) {
+		System.out.println("add producthoeveelheid");
 		Optional<ProductHoeveelheid> productHoeveelheidOptional = producten.stream()
 				 .filter(ph->ph.getProduct().equals(productHoeveelheid.getProduct()))
 				 .findFirst();
+		System.out.println(productHoeveelheidOptional.toString());
 		if (productHoeveelheidOptional.isPresent()) {
 			productHoeveelheidOptional.get().add(productHoeveelheid.getHoeveelheid());
+			System.out.println("present");
+			System.out.println(productHoeveelheidOptional.get().getHoeveelheid());
+			return productHoeveelheidOptional.get();
 		} else {
+			System.out.println("not present");
 			producten.add(productHoeveelheid);
+			return productHoeveelheid;
 		}
-		return true;
 	}
-	
+
 	public boolean removeProduct(Product product) {
 		for (ProductHoeveelheid producthoeveelheid:producten) {
 			if (producthoeveelheid.getProduct().equals(product)) {
