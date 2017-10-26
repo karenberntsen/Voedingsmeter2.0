@@ -79,14 +79,6 @@ public class LogboekdagEndpoint {
 		return true;
 	}
 	
-	@GetMapping("/getDataFromLogboekdag") //check return format in JSON
-	public Set<ProductHoeveelheid> getDataFromLogboekdag(HttpServletRequest request) {
-		LocalDate datum = LocalDate.parse(request.getQueryString(),JacksonConfig.FORMATTER);
-		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
-		Logboekdag logboekdag = logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
-		return logboekdag.getProducten();
-	}
-	
 	
     @GetMapping("/getLogboekdagById/{id}")
 	public Logboekdag getLogboekdagById(@PathVariable int id) {

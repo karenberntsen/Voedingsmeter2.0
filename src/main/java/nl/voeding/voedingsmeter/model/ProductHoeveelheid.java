@@ -39,7 +39,7 @@ public class ProductHoeveelheid {
 	}
 
 	@NotNull
-	@ManyToOne(targetEntity=Product.class,fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Product.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	public Product getProduct() {
 		return product;

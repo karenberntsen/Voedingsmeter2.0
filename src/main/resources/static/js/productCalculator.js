@@ -5,9 +5,11 @@
 
 
 
-function x() {
-	getData("getDataFromLogboekdag", maakDropdown,"eenheid");
+function laadTabelLogboekdag() {
+	getData("getProductHoeveelhedenFromLogboekdag/"+window.location.href.split('?datum=')[1], maakDropdown,"eenheid");
 }
+
+
 
 function voegProductToeAanLogboekdag() {
 	var producthoeveelheid= {};

@@ -28,7 +28,7 @@ public class ProductHoeveelheidService {
 	}
 	
 	public List<ProductHoeveelheid> getAll() {
-		return (List<ProductHoeveelheid>)productHoeveelheidRepository.findAll();
+		 return (List<ProductHoeveelheid>) productHoeveelheidRepository.findAll();
 	}
 	
 	public ProductHoeveelheid getProductHoeveelheidById(int id) {

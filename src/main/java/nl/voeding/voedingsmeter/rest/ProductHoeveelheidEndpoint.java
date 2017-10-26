@@ -2,6 +2,7 @@ package nl.voeding.voedingsmeter.rest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,13 +46,27 @@ public class ProductHoeveelheidEndpoint {
 		return productHoeveelheidService.getAll();
 	}
 	
+	@GetMapping("getProductHoeveelhedenFromLogboekdag/{datumString}")
+	public Set<ProductHoeveelheid> getProductHoeveelhedenFromLogboekdag(@PathVariable String datumString, HttpServletRequest request) {
+		System.out.println("getProductHoeveelhedenFromLogboekdag");
+		Logboekdag logboekdag = getLogboekdag(request,datumString);
+		return logboekdag.getProducten();
+	}
+
+	private LocalDate getLocalDateFromString(String datumString) {
+		return LocalDate.parse(datumString,JacksonConfig.FORMATTER);
+	}
+	
+	private Logboekdag getLogboekdag(HttpServletRequest request, String datumString) {
+		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
+		LocalDate datum = getLocalDateFromString(datumString);
+		return logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
+	}
+	
 	@PostMapping("/ProductHoeveelheidPost/{datumString}")
 	public boolean postEntiteit(@RequestBody ProductHoeveelheid productHoeveelheid,@PathVariable String datumString, HttpServletRequest request) {
 		System.out.println("producthoeveelheid of: "+productHoeveelheid.getProduct().getId());
-		System.out.println(request.getQueryString());
-		Gebruiker gebruiker = gebruikerService.getGebruikerByCookie(request.getCookies());
-		LocalDate datum = LocalDate.parse(datumString,JacksonConfig.FORMATTER);
-		Logboekdag logboekdag = logboekdagService.getLogboekdagByGebruikerAndDatum(gebruiker, datum);
+		Logboekdag logboekdag = getLogboekdag(request,datumString);
 		productHoeveelheidService.save(productHoeveelheid);
 		logboekdag.addProductHoeveelheid(productHoeveelheid);
 		logboekdagService.save(logboekdag);
