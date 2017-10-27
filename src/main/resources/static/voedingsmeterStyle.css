@@ -1,0 +1,67 @@
+body {
+    background-image: url("background.jpeg");
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+    color: #cc0000;
+}
+
+html {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+    color: #cc0000;
+
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #cc0000;
+}
+
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+    color: #cc0000;
+}
+
+.form-control{
+    color: #cc0000;
+}
+
+.btn {
+    color: #cc0000;
+}
+
+.btn.focus {
+    color: #cc0000;
+}
+
+.navbar-light .navbar-brand {
+    color: #cc0000;
+}
+
+.btn btn-default {
+    color: #cc0000;
+}
+
+table {
+    color: #cc0000;
+}
+
+.container {
+	background-color: #FFFFFF;
+	opacity: 0.8;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	position: absolute;
+	left: 100px;
+  	  text-align: center;
+
+}
+
+
+
+h2 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-left: 20px;
+}

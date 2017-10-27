@@ -32,9 +32,13 @@ public class ProductEndpoint {
 	
 	@GetMapping("/createProduct")
 	public Product createProduct() {
-		Product appel = new Product("appel",100f,Eenheid.GRAM,Productgroep.FRUIT,60f,0f,0.2f,0f,0.2f,13f,10.4f,null,2.0f,0.003f,"http://www.voedingscentrum.nl/encyclopedie/appel.aspx");
-		productService.save(appel);
-		return appel;
+		//Product appel = new Product("appel",100f,Eenheid.GRAM,Productgroep.FRUIT,60f,0f,0.2f,0f,0.2f,13f,10.4f,null,2.0f,0.003f,"http://www.voedingscentrum.nl/encyclopedie/appel.aspx");
+		Product melk = new Product("melk",100f,Eenheid.MILILITER,Productgroep.ZUIVEL,46f,3f,1.5f,1f,0.5f,4.7f,4.7f,null,2.0f,0.003f,"http://www.voedingscentrum.nl/encyclopedie/appel.aspx");
+		Product ei = new Product("ei",1f,Eenheid.STUK,Productgroep.ZUIVEL,132f,0f,9.1f,3f,6.1f,12f,0.2f,null,0.2f,0.385f,"http://www.voedingscentrum.nl/encyclopedie/eieren.aspx");
+		//productService.save(appel);
+		productService.save(melk);
+		productService.save(ei);
+		return melk;
 	}
 
 	@GetMapping("/getProducts")

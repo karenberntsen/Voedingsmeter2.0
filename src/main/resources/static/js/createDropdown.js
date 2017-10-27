@@ -55,6 +55,7 @@
      				inputje.type="number";
      				inputje.step=".1";
      				inputje.className="form-control";
+     				row.insertCell();
      				row.insertCell().appendChild(inputje);
      				 
      	/*			var divje = document.createElement("div");

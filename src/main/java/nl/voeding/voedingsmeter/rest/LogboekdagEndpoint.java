@@ -44,12 +44,12 @@ public class LogboekdagEndpoint {
 	
 	@GetMapping("/createLogboekdag")
 	public Logboekdag createLogboekdag() {
-		Gebruiker gebruiker = new Gebruiker("japie",LocalDate.of(1970, 8, 3),1.85f,"japie@hotmail.nl","japie");
+		Gebruiker gebruiker = new Gebruiker("Esra",LocalDate.of(1970, 8, 3),1.85f,"esra@mail.nl","esra");
 		System.out.println(gebruiker);
 		gebruikerService.save(gebruiker);
-		Logboekdag logboekdag = new Logboekdag(gebruiker);
+		Logboekdag logboekdag = new Logboekdag(gebruiker,LocalDate.of(2017, 10, 25));
 		logboekdagService.save(logboekdag);
-		Logboekdag logboekdag2 = new Logboekdag(gebruiker,LocalDate.of(2017, 10, 10));
+		Logboekdag logboekdag2 = new Logboekdag(gebruiker,LocalDate.of(2017, 10, 24));
 		logboekdagService.save(logboekdag2);
 		return logboekdag;
 	}
